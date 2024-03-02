@@ -128,10 +128,10 @@ class authController {
           error: "Invalid Credentials",
         };
       }
-
+      console.log(body.role);
       const accessToken = await generateAccessToken({
         email: checkUser.email,
-        role: checkUser.role,
+        role: body.role,
       });
       checkUser.accessToken = accessToken;
       await checkUser.save();

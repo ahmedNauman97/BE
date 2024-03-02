@@ -21,9 +21,19 @@ class productController {
     }
   }
 
-  async getProducts() {
+  async getProducts(id) {
     try {
-      const products = await Product.find().populate("categoryId");
+      let products;
+
+      if (id) {
+        products = await Product.find({ categoryId: id }).populate(
+          "categoryId"
+        );
+      } else {
+        products = await Product.find().populate("categoryId");
+      }
+      console.log("done");
+
       const productsWithCategoryNames = products.map((product) => ({
         _id: product._id,
         name: product.name,

@@ -13,9 +13,9 @@ productRouter.post("/", validateToken, async (req, res) => {
     res.status(error.code).send(error);
   }
 });
-productRouter.get("/", validateToken, async (req, res) => {
+productRouter.get("/:id?", validateToken, async (req, res) => {
   try {
-    const response = await controller.getProducts();
+    const response = await controller.getProducts(req.params.id);
     res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);

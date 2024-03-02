@@ -15,6 +15,7 @@ const validateToken = async (req, res, next) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
+    console.log(user.role);
 
     req.user = {
       email: user.email,
