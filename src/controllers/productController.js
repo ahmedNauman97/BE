@@ -3,7 +3,6 @@ const { Product } = require("../models/catalogue");
 class productController {
   async createProduct(body) {
     try {
-      console.log(body);
       const newProduct = await new Product({
         ...body,
       });
@@ -32,7 +31,6 @@ class productController {
       } else {
         products = await Product.find().populate("categoryId");
       }
-      console.log("done");
 
       const productsWithCategoryNames = products.map((product) => ({
         _id: product._id,

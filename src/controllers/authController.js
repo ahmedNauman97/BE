@@ -91,7 +91,6 @@ class authController {
         },
         { new: true }
       );
-      console.log(updateUser);
       await updateUser.save();
       return {
         code: 200,
@@ -128,7 +127,6 @@ class authController {
           error: "Invalid Credentials",
         };
       }
-      console.log(body.role);
       const accessToken = await generateAccessToken({
         email: checkUser.email,
         role: body.role,
