@@ -17,7 +17,6 @@ const createAdmin = async () => {
     };
 
     const newUser = new User(adminCredentials);
-    console.log(newUser);
     await newUser.save();
     return {
       code: 200,
@@ -32,9 +31,7 @@ const createAdmin = async () => {
 };
 
 createAdmin()
-  .then((result) => {
-    console.log(result);
-  })
+  .then((result) => {})
   .catch((error) => {
     console.log("Error occue in admin preceed data", error);
   });

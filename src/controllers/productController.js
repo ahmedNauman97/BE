@@ -3,11 +3,16 @@ const { Product } = require("../models/catalogue");
 class productController {
   async createProduct(body) {
     try {
-      console.log(body);
       const newProduct = await new Product({
         ...body,
       });
       newProduct.save();
+      if (!newProduct) {
+        throw {
+          code: 403,
+          message: "internal server error",
+        };
+      }
       return {
         code: 201,
         message: "Product Created Successfully",
@@ -21,9 +26,18 @@ class productController {
     }
   }
 
-  async getProducts() {
+  async getProducts(id) {
     try {
-      const products = await Product.find().populate("categoryId");
+      let products;
+
+      if (id) {
+        products = await Product.find({ categoryId: id }).populate(
+          "categoryId"
+        );
+      } else {
+        products = await Product.find().populate("categoryId");
+      }
+
       const productsWithCategoryNames = products.map((product) => ({
         _id: product._id,
         name: product.name,
@@ -47,14 +61,14 @@ class productController {
     }
   }
 
-  async updateProduct(body, id, user) {
+  async updateProduct(body, id) {
     try {
-      if (user.role !== "ADMIN" && user.role !== "MANAGER") {
-        throw {
-          code: 401,
-          message: "Only Admin can update",
-        };
-      }
+      //   if (user.role !== "ADMIN" && user.role !== "MANAGER") {
+      //     throw {
+      //       code: 401,
+      //       message: "Only Admin can update",
+      //     };
+      //   }
       const findProduct = await Product.findByIdAndUpdate(
         id,
         { $set: { ...body } },

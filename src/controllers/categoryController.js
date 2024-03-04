@@ -52,7 +52,6 @@ class categoryController {
   }
 
   async updateCategory(body, id, user) {
-    console.log(body, id, user);
     try {
       if (user.role !== "ADMIN" && user.role !== "MANAGER") {
         throw {
@@ -65,7 +64,6 @@ class categoryController {
         { $set: { ...body } },
         { new: true }
       );
-      console.log(user.role);
 
       if (!updatedData) {
         throw {

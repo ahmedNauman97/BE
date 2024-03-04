@@ -47,7 +47,6 @@ authRouter.post("/login", async (req, res) => {
 authRouter.delete("/user/:id", validateToken, async (req, res) => {
   try {
     const userId = req.params.id;
-    console.log(userId);
     const response = await controller.deleteUser(userId, req.user);
     res.status(response.code).send(response);
   } catch (error) {

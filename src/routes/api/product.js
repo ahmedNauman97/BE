@@ -7,15 +7,16 @@ const controller = new productController();
 
 productRouter.post("/", validateToken, async (req, res) => {
   try {
+    console.log("product");
     const response = await controller.createProduct(req.body, req.user);
     res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);
   }
 });
-productRouter.get("/", validateToken, async (req, res) => {
+productRouter.get("/:id?", validateToken, async (req, res) => {
   try {
-    const response = await controller.getProducts();
+    const response = await controller.getProducts(req.params.id);
     res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);
@@ -23,11 +24,7 @@ productRouter.get("/", validateToken, async (req, res) => {
 });
 productRouter.patch("/:id", validateToken, async (req, res) => {
   try {
-    const response = await controller.updateProduct(
-      req.body,
-      req.params.id,
-      req.user
-    );
+    const response = await controller.updateProduct(req.body, req.params.id);
     res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);
