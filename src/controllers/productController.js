@@ -7,6 +7,12 @@ class productController {
         ...body,
       });
       newProduct.save();
+      if (!newProduct) {
+        throw {
+          code: 403,
+          message: "internal server error",
+        };
+      }
       return {
         code: 201,
         message: "Product Created Successfully",
@@ -55,14 +61,14 @@ class productController {
     }
   }
 
-  async updateProduct(body, id, user) {
+  async updateProduct(body, id) {
     try {
-      if (user.role !== "ADMIN" && user.role !== "MANAGER") {
-        throw {
-          code: 401,
-          message: "Only Admin can update",
-        };
-      }
+      //   if (user.role !== "ADMIN" && user.role !== "MANAGER") {
+      //     throw {
+      //       code: 401,
+      //       message: "Only Admin can update",
+      //     };
+      //   }
       const findProduct = await Product.findByIdAndUpdate(
         id,
         { $set: { ...body } },
