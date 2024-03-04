@@ -16,7 +16,7 @@ orderRouter.post("/", validateToken, async (req, res) => {
 });
 orderRouter.get("/", validateToken, async (req, res) => {
   try {
-    const response = await controller.getOrdersDetail(req.user);
+    const response = await controller.getOrdersDetail(req.user, req.query);
     res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);

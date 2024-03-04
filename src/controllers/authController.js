@@ -114,13 +114,11 @@ class authController {
           message: "User not found",
         };
       }
-      if (checkUser.role === "USER" && body.role !== "USER") {
-        throw {
-          code: 403,
-          message: "Sorry you are not Admin. Please login as User",
-        };
-      }
-      const checkPassword = bcrypt.compare(body.password, checkUser.password);
+
+      const checkPassword = await bcrypt.compare(
+        body.password,
+        checkUser.password
+      );
       if (!checkPassword) {
         throw {
           code: 401,
@@ -129,7 +127,7 @@ class authController {
       }
       const accessToken = await generateAccessToken({
         email: checkUser.email,
-        role: body.role,
+        role: checkUser.role,
       });
       checkUser.accessToken = accessToken;
       await checkUser.save();

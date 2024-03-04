@@ -31,7 +31,7 @@ class orderController {
       };
     }
   }
-  async getOrdersDetail(user) {
+  async getOrdersDetail(user, query) {
     try {
       if (user.role !== "ADMIN") {
         throw {
@@ -39,7 +39,53 @@ class orderController {
           message: "Only Admin can access",
         };
       }
-      const getData = await Order.find();
+      const currentPage = parseInt(query.page);
+      const limit = 10;
+      let totalPages;
+      let getData;
+      if (query.date) {
+        console.log(query.date);
+        const startDate = new Date(query.date);
+        startDate.setHours(0, 0, 0, 0);
+
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 1);
+        // const response = await Order.find({
+        //   date: {
+        //     $gte: startDate,
+        //     $lt: endDate,
+        //   },
+        // });
+        // totalPages = Math.ceil(
+        //   await Order.find({
+        //     date: {
+        //       $gte: startDate,
+        //       $lt: endDate,
+        //     },
+        //   }).length
+        // );
+        totalPages = (
+          await Order.find({
+            date: {
+              $gte: startDate,
+              $lt: endDate,
+            },
+          })
+        ).length;
+        getData = await Order.find({
+          date: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        })
+          .skip((currentPage - 1) * limit)
+          .limit(limit);
+      } else {
+        totalPages = (await Order.find()).length;
+        getData = await Order.find()
+          .skip((currentPage - 1) * limit)
+          .limit(limit);
+      }
       if (!getData) {
         throw {
           code: 404,
@@ -49,6 +95,7 @@ class orderController {
       return {
         code: 200,
         message: "Data Found",
+        totalPages: totalPages,
         data: getData,
       };
     } catch (error) {
