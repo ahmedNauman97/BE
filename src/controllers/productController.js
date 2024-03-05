@@ -44,6 +44,7 @@ class productController {
         description: product.description,
         price: product.price,
         quantity: product.quantity,
+        categoryId: product.categoryId._id,
         category: product.categoryId
           ? product.categoryId.name
           : "Uncategorized",
