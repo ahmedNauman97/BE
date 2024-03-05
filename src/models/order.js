@@ -18,20 +18,6 @@ const orderSchema = new mongoose.Schema({
   date: { type: Date },
 });
 
-// orderSchema.pre("save", async function (next) {
-//   try {
-//     // Calculate totalPrice based on the sum of prices of all orders
-//     const totalPrice = this.orders.reduce((acc, cur) => acc + cur.price, 0);
-
-//     // Update the totalPrice field of the orderSchema document
-//     this.totalPrice = totalPrice;
-
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
 const Order = mongoose.model("Order", orderSchema);
 
 module.exports = Order;
