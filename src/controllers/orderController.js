@@ -152,7 +152,7 @@ class orderController {
       };
     }
   }
-  async getOrdersDetail(user) {
+  async getOrdersDetail(user, query) {
     try {
       if (user.role !== "ADMIN") {
         throw {
@@ -160,7 +160,41 @@ class orderController {
           message: "Only Admin can access",
         };
       }
-      const getData = await Order.find();
+      const currentPage = parseInt(query.page);
+      const limit = 10;
+      let totalPages;
+      let getData;
+      if (query.date) {
+        console.log(query.date);
+        const startDate = new Date(query.date);
+        startDate.setHours(0, 0, 0, 0);
+
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 1);
+
+        totalPages = (
+          await Order.find({
+            date: {
+              $gte: startDate,
+              $lt: endDate,
+            },
+          })
+        ).length;
+        getData = await Order.find({
+          date: {
+            $gte: startDate,
+            $lt: endDate,
+          },
+        })
+          .skip((currentPage - 1) * limit)
+          .limit(limit);
+      } else {
+        totalPages = (await Order.find()).length;
+        getData = await Order.find()
+          .sort({ date: -1 })
+          .skip((currentPage - 1) * limit)
+          .limit(limit);
+      }
       if (!getData) {
         throw {
           code: 404,
@@ -170,12 +204,49 @@ class orderController {
       return {
         code: 200,
         message: "Data Found",
+        totalPages: totalPages,
         data: getData,
       };
     } catch (error) {
       throw {
         code: error.code || 403,
         error: error.message || "Internal Server Error",
+      };
+    }
+  }
+
+  async getStatus(user) {
+    try {
+      const data = await Order.find();
+      console.log(new Date().toISOString().split("T")[0]);
+
+      const currentDate = new Date();
+
+      const todayDate = currentDate.toISOString().split("T")[0];
+      const todayOrders = data.filter(
+        (item) => item.date.toISOString().split("T")[0] === todayDate
+      );
+      const preDate = new Date(currentDate);
+      preDate.setDate(currentDate.getDate() - 1);
+      console.log("done", preDate);
+      const preDay = data.filter(
+        (item) =>
+          item.date.toISOString().split("T")[0] ===
+          preDate.toISOString().split("T")[0]
+      );
+
+      return {
+        code: 200,
+        today: todayOrders,
+        preDay: preDay,
+        totalOrders: data.length,
+      };
+    } catch (error) {
+      console.error(error);
+
+      throw {
+        code: 403,
+        error: error || "Internal Server Error",
       };
     }
   }
