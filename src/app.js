@@ -10,6 +10,7 @@ const port = process.env.PORT || 4040;
 
 const app = express();
 
+app.use(express.static('public'));
 app.use(cors());
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ extended: true }));

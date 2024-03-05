@@ -60,7 +60,7 @@ class authController {
       if (req.params.id) {
         users = await User.findById(req.params.id);
       } else {
-        users = await User.find({ role: { $in: ["USER", "MANAGER"] } });
+        users = await User.find({ });
       }
       return {
         code: 200,

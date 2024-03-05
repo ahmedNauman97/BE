@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   accessToken: { type: String },
   role: {
     type: String,
-    emum: ["ADMIN", "USER", "MANAGER"],
+    emum: ["ADMIN", "USER"],
     default: "USER",
     required: true,
   },
