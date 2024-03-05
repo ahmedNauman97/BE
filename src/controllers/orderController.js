@@ -50,20 +50,7 @@ class orderController {
 
         const endDate = new Date(startDate);
         endDate.setDate(startDate.getDate() + 1);
-        // const response = await Order.find({
-        //   date: {
-        //     $gte: startDate,
-        //     $lt: endDate,
-        //   },
-        // });
-        // totalPages = Math.ceil(
-        //   await Order.find({
-        //     date: {
-        //       $gte: startDate,
-        //       $lt: endDate,
-        //     },
-        //   }).length
-        // );
+
         totalPages = (
           await Order.find({
             date: {
@@ -83,6 +70,7 @@ class orderController {
       } else {
         totalPages = (await Order.find()).length;
         getData = await Order.find()
+          .sort({ date: -1 })
           .skip((currentPage - 1) * limit)
           .limit(limit);
       }
@@ -102,6 +90,42 @@ class orderController {
       throw {
         code: error.code || 403,
         error: error.message || "Internal Server Error",
+      };
+    }
+  }
+
+  async getStatus(user) {
+    try {
+      const data = await Order.find();
+      console.log(new Date().toISOString().split("T")[0]);
+
+      const currentDate = new Date();
+
+      const todayDate = currentDate.toISOString().split("T")[0];
+      const todayOrders = data.filter(
+        (item) => item.date.toISOString().split("T")[0] === todayDate
+      );
+      const preDate = new Date(currentDate);
+      preDate.setDate(currentDate.getDate() - 1);
+      console.log("done", preDate);
+      const preDay = data.filter(
+        (item) =>
+          item.date.toISOString().split("T")[0] ===
+          preDate.toISOString().split("T")[0]
+      );
+
+      return {
+        code: 200,
+        today: todayOrders,
+        preDay: preDay,
+        totalOrders: data.length,
+      };
+    } catch (error) {
+      console.error(error);
+
+      throw {
+        code: 403,
+        error: error || "Internal Server Error",
       };
     }
   }

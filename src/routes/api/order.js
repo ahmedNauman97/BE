@@ -22,5 +22,14 @@ orderRouter.get("/", validateToken, async (req, res) => {
     res.status(error.code).send(error);
   }
 });
+orderRouter.get("/status", validateToken, async (req, res) => {
+  try {
+    console.log("helllo");
 
+    const response = await controller.getStatus(req.user);
+    res.status(response.code).send(response);
+  } catch (error) {
+    res.status(error.code).send(error);
+  }
+});
 module.exports = orderRouter;
