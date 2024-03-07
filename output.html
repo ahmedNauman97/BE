@@ -7,10 +7,13 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
-                margin: 0;
+                font-size:30px;
+                max-width: 500px;
                 padding: 20px;
-                font-weight: 600;
-                font-size: 35px;
+            }
+            .hr-line {
+                border-bottom: 10px solid #000; /* Adjust the color and thickness as needed */
+                margin: 50px 0px; /* Adjust the margin as needed */
             }
             .container {
                 max-width: 400px;
@@ -21,14 +24,9 @@
             }
             .header_1 {
                 text-align: center;
-                font-size: 80px;
-                font-weight: bold;
             }
             .header_2 {
                 text-align: center;
-                font-size: 35px;
-                margin-bottom: 20px;
-                margin-top: -5%;
                 font-weight: bold;
             }
             .header h2 {
@@ -36,90 +34,232 @@
             }
             .address {
                 text-align: center;
-                margin-top: 50px;
-                margin-bottom: 50px;
             }
             .info {
-                margin-bottom: 20px;
                 display: flex;
-                justify-content: space-evenly;
+                justify-content: space-between;
+                font-size:20px;
+            }
+            .sub_info {
+                display: flex;
+                justify-content: space-between;
+                margin:0px
             }
             .products {
-                margin-top: 20px;
                 text-align: center;
                 border-collapse: collapse;
                 width: 100%;
             }
             .products div {
                 display: flex;
-                margin-top: -20px;
-                justify-content: space-evenly;
+                justify-content: space-between;
             }
             .total {
                 display: flex;
                 text-align: center;
-                justify-content: space-evenly;
+                justify-content: space-between;
                 border-collapse: collapse;
                 width: 100%;
             }
-            .footer {
-                margin-top: 20px;
-                text-align: center;
-                width: 100%;
-                font-size: 20px;
+            .section {
+                margin-bottom: 50px
+            }
+            .sub_section {
+                margin-top: 50px;
+                font-size:20px;
+                padding: 0px 60px
             }
         </style>
     </head>
     <body>
-        <div >
-            <div class="header_1">
-                <h3>MA CHERIE</h3>
-            </div>
-            <div class="header_2">
-                <p>www.macherie010.com</p>
-            </div>
-            <div class="address">
-                <p>MA CHERIE</p>
-                <p>NOORDMOLENSTRAAT 79 A</p>
-                <p>3035 RH ROTTERDAM</p>
-                <p>WHATSAPP; 0684202826</p>
-            </div>
+        <div>
             <div class="info">
-                <p>REG</p>
-                <p>ADMIN</p>
-                <p>05:03:2024     20:53</p>
-                <p>000030</p>
+                <p>X/Z</p>
+                <p>AFRIDI</p>
+                <p>07:03:2024     17:59</p>
+                <p>000335</p>
             </div>
-            <div class="products">
-            <div>
-                <p>1     Pant red</p>
-                <p>10</p>
+            <div class="header_1">
+                <h3>BATCH REPORT 2</h3>
             </div>
-            <div>
-                <p>Total Ex VAT</p>
-                <p>7.90</p>
+            
+        <div class="section">
+            <div class="info"  style="margin-top: 50px;">
+                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">0001011</p>
+                <p style="margin: 0;">FIXED TTL</p>
+                <p style="margin: 0;">000335</p>
             </div>
-            <div>
-                <p>VAT @ 21%</p>
-                <p>2.10</p>
+            <div class="sub_section">
+                <div class="sub_info">
+                    <p style="margin: 0;">GROSS SALES</p>
+                    <p style="margin: 0;">4</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">NET SALES <span  style="margin-left: 50px;">No</span></p>
+                    <p style="margin: 0;">4</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">CASH IN DRAWER</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">TOTAL EX VAT</p>
+                    <p style="margin: 0;">€28.10</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">VAT @ 21%</p>
+                    <p style="margin: 0;">€5.90</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">TOTAL TA</p>
+                    <p style="margin: 0;">€28.10</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">TOTAL TAX</p>
+                    <p style="margin: 0;">€5.90</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">TOTAL TURNOVER</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
             </div>
         </div>
-            <div class="total">
-                <p>SUB TOTAL</p>
-                <p>10</p>
+        
+            
+        <div class="section">
+            <div class="info">
+                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">0001012</p>
+                <p style="margin: 0;">FREE FUNCTION</p>
+                <p style="margin: 0;">000335</p>
             </div>
-            <div class="total">
-                <p>CONTANT</p>
-                <p>10</p>
+            <div class="sub_section">
+                <div class="sub_info">
+                    <p style="margin: 0;">CONTANT <span style="margin-left: 50px;">No</span></p>
+                    <p style="margin: 0;">2</p>
+                    <p style="margin: 0;">€22.00</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">PIN <span style="margin-left: 50px;">No</span></p>
+                    <p style="margin: 0;">2</p>
+                    <p style="margin: 0;">€12.00</p>
+                </div>
             </div>
-            <div class="footer">
-                <p>WIJ GEVEN GEEN GELD TERUG</p>
-                <p>RUILEN BINNEN 8.DAGEN MET BON</p>
-                <p>SALE ART, MOGEN NIET GERUILD WORDEN</p>
-                <p>Wij geven geen (was)garantie</p>
-                <p>BEDANKT VOOR UW AANKOOP</p>
+        </div>
+        
+            
+        <div class="section">
+            <div class="info">
+                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">0001015</p>
+                <p style="margin: 0;">DEPT</p>
+                <p style="margin: 0;">000335</p>
             </div>
+            <div class="sub_section">
+                
+            <div class="sub_info">
+                <p style="margin: 0;">Shirts_1</p>
+                <p style="margin: 0;">2</p>
+                <p style="margin: 0;">€4.00</p>
+            </div>
+        
+            <div class="sub_info">
+                <p style="margin: 0;">pants_2</p>
+                <p style="margin: 0;">1</p>
+                <p style="margin: 0;">€10.00</p>
+            </div>
+        
+            <div class="sub_info">
+                <p style="margin: 0;">Dames Kleding</p>
+                <p style="margin: 0;">1</p>
+                <p style="margin: 0;">€20.00</p>
+            </div>
+         <!-- Join the results to remove line breaks -->
+                <div class="hr-line"></div>
+                <div class="sub_info">
+                    <p style="margin: 0;">TL</p>
+                    <p style="margin: 0;">9</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+            </div>
+        </div>
     
+            
+        <div class="section">
+            <div class="info">
+                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">0001017</p>
+                <p style="margin: 0;">CASHIER/CLERK</p>
+                <p style="margin: 0;">000335</p>
+            </div>
+            <div class="sub_section">
+                <div class="hr-line"></div>
+                <div class="hr-line"></div>
+                <div class="sub_info">
+                    <p style="margin: 0;">AFRIDI</p>
+                    <p style="margin: 0;">1</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">GROSS SALES</p>
+                    <p style="margin: 0;">4</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">NET SALES <span style="margin-left: 50px;">No</span></p>
+                    <p style="margin: 0;">4</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+                <div class="sub_info">
+                    <p style="margin: 0;">CASH IN DRAWER</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+            </div>
+        </div>
+        
+            
+        <div class="section">
+            <div class="info">
+                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">0001014</p>
+                <p style="margin: 0;">PLU</p>
+                <p style="margin: 0;">000335</p>
+            </div>
+            <div class="sub_section">
+                
+            <div class="sub_info">
+                <p style="margin: 0;">Shirt Red</p>
+                <p style="margin: 0;">€2.00</p>
+                <p style="margin: 0;">2</p>
+                <p style="margin: 0;">€4.00</p>
+            </div>
+        
+            <div class="sub_info">
+                <p style="margin: 0;">Pant Blue</p>
+                <p style="margin: 0;">€10.00</p>
+                <p style="margin: 0;">1</p>
+                <p style="margin: 0;">€10.00</p>
+            </div>
+        
+            <div class="sub_info">
+                <p style="margin: 0;">Kleding 1</p>
+                <p style="margin: 0;">€20.00</p>
+                <p style="margin: 0;">1</p>
+                <p style="margin: 0;">€20.00</p>
+            </div>
+         <!-- Join the results to remove line breaks -->
+                <div class="hr-line"></div>
+                <div class="sub_info">
+                    <p style="margin: 0;">TL</p>
+                    <p style="margin: 0;">9</p>
+                    <p style="margin: 0;">€34.00</p>
+                </div>
+            </div>
+        </div>
+    
+            <div style="margin: 0;"></div>
         </div>
     </body>
     </html>

@@ -20,9 +20,11 @@ const validateToken = async (req, res, next) => {
       email: user.email,
       role: user.role,
       _id: user?._id,
+      name:user?.lastName
     };
     next();
   } catch (error) {
+    console.log("ERROR",error.message)
     return res.status(error.code || 401).send(error.message || "Unauthorized");
   }
 };

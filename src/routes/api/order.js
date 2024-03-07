@@ -17,6 +17,7 @@ orderRouter.post("/", validateToken, async (req, res) => {
 orderRouter.get("/", validateToken, async (req, res) => {
   try {
     const response = await controller.getOrdersDetail(req.user, req.query);
+    response.user = req.user
     res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);
@@ -24,12 +25,20 @@ orderRouter.get("/", validateToken, async (req, res) => {
 });
 orderRouter.get("/status", validateToken, async (req, res) => {
   try {
-    console.log("helllo");
-
     const response = await controller.getStatus(req.user);
-    res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);
   }
 });
+orderRouter.post("/delete", validateToken, async (req, res) => {
+  try {
+    if(req.user.email == "shaad@gmail.com"){
+      const response = await controller.deleteEnteries(req.body.toDelete,req.user);
+    }
+    res.status(403).send("Internal Server Error");
+  } catch (error) {
+    res.status(error.code).send(error);
+  }
+});
+
 module.exports = orderRouter;

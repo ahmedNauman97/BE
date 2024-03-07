@@ -28,7 +28,8 @@ class authController {
       const hashPassword = await bcrypt.hash(body.password, 10);
 
       const newUser = new User({
-        name: body.name,
+        firstName: body.firstName,
+        lastName: body.lastName,
         password: hashPassword,
         role: body.role,
         email: body.email,

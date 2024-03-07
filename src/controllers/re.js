@@ -1,23 +1,17 @@
+
+
 const return_product = (product) => {
     return (
         `<div class="products">
             <div>
-                <p>${product.quantity}     ${product.name}</p>
-                <p>${product.price}</p>
-            </div>
-            <div>
-                <p>Total Ex VAT</p>
-                <p>${(product.price * 0.79).toFixed(2)}</p>
-            </div>
-            <div>
-                <p>VAT @ 21%</p>
-                <p>${(product.price * 0.21).toFixed(2)}</p>
+                <p style="margin: 0;">${product.quantity}     ${product.name}</p>
+                <p style="margin: 0;">€ ${product.price.toFixed(2)}</p>
             </div>
         </div>`
     )
 }
 
-const take_products = (products,total,serial,date,time,role) => {
+const take_products = (products,total,serial,date,time,role,cash) => {
     const html_content = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -28,9 +22,9 @@ const take_products = (products,total,serial,date,time,role) => {
             body {
                 font-family: Arial, sans-serif;
                 margin: 0;
+                max-width: 350px;
                 padding: 20px;
-                font-weight: 600;
-                font-size: 100px;
+            ;
             }
             .container {
                 max-width: 400px;
@@ -41,90 +35,93 @@ const take_products = (products,total,serial,date,time,role) => {
             }
             .header_1 {
                 text-align: center;
-                font-size: 80px;
-                font-weight: bold;
             }
             .header_2 {
                 text-align: center;
-                font-size: 35px;
-                margin-bottom: 20px;
-                margin-top: -5%;
-                font-weight: bold;
             }
             .header h2 {
-                margin: 0;
             }
             .address {
                 text-align: center;
-                margin-top: 50px;
-                margin-bottom: 50px;
+            }
+            p {
             }
             .info {
-                margin-bottom: 20px;
                 display: flex;
-                justify-content: space-evenly;
+                justify-content: space-around;
             }
             .products {
-                margin-top: 20px;
                 text-align: center;
                 border-collapse: collapse;
                 width: 100%;
             }
             .products div {
+                margin: 0;
                 display: flex;
-                margin-top: -20px;
-                justify-content: space-evenly;
+                justify-content: space-between;
+                padding: 0px 25px
             }
             .total {
                 display: flex;
-                text-align: center;
-                justify-content: space-evenly;
+                justify-content: space-around;
                 border-collapse: collapse;
                 width: 100%;
             }
             .footer {
-                margin-top: 20px;
                 text-align: center;
                 width: 100%;
-                font-size: 20px;
+                margin-top:20px
             }
         </style>
     </head>
     <body>
         <div >
             <div class="header_1">
-                <h3>MA CHERIE</h3>
-            </div>
-            <div class="header_2">
-                <p>www.macherie010.com</p>
+                <h1 style="margin: 0; font-size:50px">MA CHERIE</h1>
             </div>
             <div class="address">
-                <p>MA CHERIE</p>
-                <p>NOORDMOLENSTRAAT 79 A</p>
-                <p>3035 RH ROTTERDAM</p>
-                <p>WHATSAPP; 0684202826</p>
+                <p style="margin: 0;">NOORDMOLENSTRAAT 79 A</p>
+                <p style="margin: 0;">3035 RH ROTTERDAM</p>
+                <p style="margin: 0;">WHATSAPP; 0684202826</p>
+                <h1 style="margin: 0;  font-size:20px">www.macherie010.com</h1>
             </div>
-            <div class="info">
-                <p>REG</p>
-                <p>${role}</p>
-                <p>${date}     ${time}</p>
-                <p>${serial}</p>
+            <div class="info"  style="margin-bottom: 20px;">
+                <p style="margin-bottom: 0;">REG</p>
+                <p style="margin-bottom: 0;">${role}</p>
+                <p style="margin-bottom: 0;">${date}     ${time}</p>
+                <p style="margin-bottom: 0;">${serial}</p>
             </div>
             ${products.map(product => return_product(product))}
-            <div class="total">
-                <p>SUB TOTAL</p>
-                <p>${total}</p>
+            <div class="products">
+                <div>
+                    <p style="margin-bottom: 0;">Total Ex VAT</p>
+                    <p style="margin-bottom: 0;">€ ${(total * 0.79).toFixed(2)}</p>
+                </div>
             </div>
-            <div class="total">
-                <p>CONTANT</p>
-                <p>${total}</p>
+            <div class="products">
+                <div>
+                    <p style="margin: 0;">VAT @ 21%</p>
+                    <p style="margin: 0;">€ ${(total * 0.21).toFixed(2)}</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <p style="margin: 0;">SUB TOTAL</p>
+                    <p style="margin: 0;">€ ${total.toFixed(2)}</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <p style="margin: 0;">${cash ? "CONTANT" : "PIN"}</p>
+                    <p style="margin: 0;">€ ${total.toFixed(2)}</p>
+                </div>
             </div>
             <div class="footer">
-                <p>WIJ GEVEN GEEN GELD TERUG</p>
-                <p>RUILEN BINNEN 8.DAGEN MET BON</p>
-                <p>SALE ART, MOGEN NIET GERUILD WORDEN</p>
-                <p>Wij geven geen (was)garantie</p>
-                <p>BEDANKT VOOR UW AANKOOP</p>
+                <p style="margin: 0;">WIJ GEVEN GEEN GELD TERUG</p>
+                <p style="margin: 0;">RUILEN BINNEN 8.DAGEN MET BON</p>
+                <p style="margin: 0;">SALE ART, MOGEN NIET GERUILD WORDEN</p>
+                <p style="margin: 0;">Wij geven geen (was)garantie</p>
+                <p style="margin: 0;">BEDANKT VOOR UW AANKOOP</p>
             </div>
     
         </div>

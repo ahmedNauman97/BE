@@ -2,12 +2,25 @@ const { Product } = require("../models/catalogue");
 
 class AppUtils {
   static async updateInventory(id, quantity) {
-    const updateInventory = await Product.findByIdAndUpdate(id, {
-      $inc: { quantity: -quantity },
-    });
-    console.log(updateInventory);
-    await updateInventory.save();
-    if (!updateInventory) {
+
+    const product = await Product.findById(id);
+    if (!product) {
+      throw {
+        code: 404,
+        message: "Item not found",
+      };
+    }
+
+    // Convert quantity to a numeric value before subtracting
+    const updatedQuantity = parseInt(product.quantity) - parseInt(quantity);
+
+    // Update the product with the new quantity
+    product.quantity = updatedQuantity;
+
+    // Save the updated product
+    await product.save();
+
+    if (!product) {
       throw {
         code: 404,
         message: "Item not found",

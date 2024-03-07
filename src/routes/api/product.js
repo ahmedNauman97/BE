@@ -7,7 +7,6 @@ const controller = new productController();
 
 productRouter.post("/", validateToken, async (req, res) => {
   try {
-    console.log("product");
     const response = await controller.createProduct(req.body, req.user);
     res.status(response.code).send(response);
   } catch (error) {

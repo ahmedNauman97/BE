@@ -9,6 +9,8 @@ const categorySchema = new mongoose.Schema({
   //       ref: "Product",
   //     },
   //   ],
+},{
+  versionKey: false
 });
 
 const productSchema = new mongoose.Schema({
@@ -22,6 +24,9 @@ const productSchema = new mongoose.Schema({
     ref: "Category",
     required: true,
   },
+}, {
+  // Disable the version key
+  versionKey: false
 });
 
 const Category = mongoose.model("Category", categorySchema);
