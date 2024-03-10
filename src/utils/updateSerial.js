@@ -4,6 +4,7 @@ const fs = require('fs');
 const puppeteer = require('puppeteer');
 const path = require('path');
 const axios = require("axios")
+const UpdateSerialNumber = require("../utils/updateSerial")
 
 async function convertHtmlToImage(htmlContent, outputFile,width) {
     const browser = await puppeteer.launch();
@@ -146,13 +147,33 @@ class OrderMiddleware {
         }
     }
 
+    static async resetSerialNumber() {
+      try {
+        const number = await SerialNumber.find()
+
+        let count = await SerialNumber.findByIdAndUpdate(
+          number[0]._id,
+          {$set: {serialNumber:0}},
+          { new: true }
+        )
+        
+        count.save()
+
+      } catch (error) {
+          throw {
+              code: 404,
+              message: "Error in Execution",
+            };
+      }
+    }
+
     static async updateSerialNumber() {
         try {
             const number = await SerialNumber.find()
             let count;
             let count_object;
             // Get the current date
-            const currentDate = new Date();
+            const currentDate = new Date(); 
       
             // Format the date as DD:MM:YYYY
             const day = String(currentDate.getDate()).padStart(2, '0');

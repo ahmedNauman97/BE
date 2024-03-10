@@ -8,6 +8,7 @@ const controller = new orderController();
 
 orderRouter.post("/", validateToken, async (req, res) => {
   try {
+    console.log("NAUMAN")
     const response = await controller.createOrder(req.body, req.user);
     res.status(response.code).send(response);
   } catch (error) {
