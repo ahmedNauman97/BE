@@ -1,5 +1,6 @@
 const SerialNumber = require("../models/receiptSerial");
 const ZReportSerial = require("../models/zReportSerial");
+const XReportSerial = require("../models/xReportSerial");
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 const path = require('path');
@@ -103,6 +104,49 @@ class OrderMiddleware {
               };
         }
     }
+
+    static async updateXSerialNumber() {
+      try {
+          const number = await XReportSerial.find()
+          let count;
+          let count_object;
+          // Get the current date
+          const currentDate = new Date();
+    
+          // Format the date as DD:MM:YYYY
+          const day = String(currentDate.getDate()).padStart(2, '0');
+          const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+          const year = currentDate.getFullYear();
+          const formattedDate = `${day}:${month}:${year}`;
+    
+          // Format the time as HH:MM
+          const hours = String(currentDate.getHours()).padStart(2, '0');
+          const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+          const formattedTime = `${hours}:${minutes}`;
+    
+          if(number.length == 0){
+            count = await new XReportSerial({
+              serialNumber: 1
+            })
+            count_object = count
+          }else{
+            count = await XReportSerial.findByIdAndUpdate(
+              number[0]._id,
+              {$set: {serialNumber:number[0].serialNumber + 1}},
+              { new: true }
+            )
+            count_object = count
+          }
+          
+          count.save()
+          return {count_object,formattedDate,formattedTime}
+      } catch (error) {
+          throw {
+              code: 404,
+              message: "Error in Execution",
+            };
+      }
+  }
 
     static async updateZSerialNumber() {
         try {

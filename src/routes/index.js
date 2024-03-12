@@ -5,6 +5,7 @@ const productRouter = require("./api/product");
 const sessionRouter = require("./api/session");
 const orderRouter = require("./api/order");
 const reportRouter = require("./api/report");
+const giftCardRouter = require("./api/giftCard");
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use("/product", productRouter);
 router.use("/order", orderRouter);
 router.use("/session", sessionRouter);
 router.use("/report", reportRouter);
+router.use("/giftCard", giftCardRouter);
 
 module.exports = router;

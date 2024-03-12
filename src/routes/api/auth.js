@@ -14,6 +14,7 @@ authRouter.post("/user", validateToken, async (req, res) => {
     res.status(error.code).send(error);
   }
 });
+
 authRouter.get("/user/:id?", validateToken, async (req, res) => {
   try {
     const response = await controller.getUsers(req);

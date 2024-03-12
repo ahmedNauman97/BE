@@ -49,7 +49,7 @@ class authController {
     }
   }
 
-  async getUsers(req) {
+  async getUsers(req,specific=false) {
     try {
       let users;
       if (req.user.role !== "ADMIN") {

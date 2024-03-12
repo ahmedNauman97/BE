@@ -78,26 +78,16 @@ class orderController {
         const endDate = new Date(startDate);
         endDate.setDate(startDate.getDate() + 1);
 
-        totalPages = (
-          await Order.find({
-            date: {
-              $gte: startDate,
-              $lt: endDate,
-            },
-          }) 
-        ).length;
+        totalPages = 1
         getData = await Order.find({
           date: {
             $gte: startDate,
             $lt: endDate,
           },
         })
-          .skip((currentPage - 1) * limit)
-          .limit(limit);
       } else {
         totalPages = (await Order.find()).length;
         getData = await Order.find()
-          .sort({ date: -1 })
           .skip((currentPage - 1) * limit)
           .limit(limit);
       }
