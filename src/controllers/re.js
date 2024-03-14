@@ -70,7 +70,8 @@ const take_products = (products,total,serial,date,time,role,cash) => {
             .footer {
                 text-align: center;
                 width: 100%;
-                margin-top:20px
+                margin-top:20px;
+                font-size:12px;
             }
         </style>
     </head>

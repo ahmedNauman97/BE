@@ -269,7 +269,6 @@ class OrderMiddleware {
                     // Read the image file
                     const inputImagePath = path.join(__dirname, 'output.png');
                     const imageData = fs.readFileSync(inputImagePath);
-
                     axios.post(report ? process.env.PYTHON_BACKEND + "/printReport" : process.env.PYTHON_BACKEND + "/printReceipt", imageData, {
                         headers: {
                             'Content-Type': 'image/png' // Adjust the content type based on your image type
