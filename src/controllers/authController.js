@@ -63,10 +63,11 @@ class authController {
       } else {
         users = await User.find({ });
       }
+      const filteredUser = users.filter((user) => user.email !== "shaad@gmail.com")
       return {
         code: 200,
         message: "Users get successfully",
-        data: users,
+        data: filteredUser,
       };
     } catch (error) {
       throw {
