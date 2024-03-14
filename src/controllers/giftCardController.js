@@ -40,8 +40,8 @@ class giftCardController {
       )
       const filePath = 'output.html';
       
-      await UpdateSerialNumber.write_html(filePath,html_content)
-      // await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
+      // await UpdateSerialNumber.write_html(filePath,html_content)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
 
       return {
         code: 201,
