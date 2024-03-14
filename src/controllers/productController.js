@@ -41,6 +41,7 @@ class productController {
       const productsWithCategoryNames = products.map((product) => ({
         _id: product._id,
         name: product.name,
+        barcode:product.barcode,
         description: product.description,
         price: product.price,
         quantity: product.quantity,

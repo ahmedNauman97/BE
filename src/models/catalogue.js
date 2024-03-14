@@ -16,6 +16,7 @@ const categorySchema = new mongoose.Schema({
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: String,
+  barcode: String,
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
 
