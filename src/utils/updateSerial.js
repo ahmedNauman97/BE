@@ -9,7 +9,17 @@ const UpdateSerialNumber = require("../utils/updateSerial")
 
 async function convertHtmlToImage(htmlContent, outputFile,width) {
     const browser = await puppeteer.launch({
-      executablePath: '/usr/bin/chromium-browser'
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
+      headless:true,
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
     });
     const page = await browser.newPage();
   
