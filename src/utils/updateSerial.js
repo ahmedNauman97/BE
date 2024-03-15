@@ -8,7 +8,10 @@ const axios = require("axios")
 const UpdateSerialNumber = require("../utils/updateSerial")
 
 async function convertHtmlToImage(htmlContent, outputFile,width) {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      executablePath: '/usr/bin/chromium-browser', // Path to Chromium executable
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Chromium options
+    });
     const page = await browser.newPage();
   
     // Set the content
