@@ -23,6 +23,21 @@ authRouter.get("/user/:id?", validateToken, async (req, res) => {
     res.status(error.code).send(error);
   }
 });
+
+authRouter.get("/userDetail", validateToken, async (req, res) => {
+  try {
+    const response = {
+      code: 200,
+      message: "Users get successfully",
+      data: req.user,
+    };
+    res.status(response.code).send(response);
+
+  } catch (error) {
+    res.status(error.code).send(error);
+  }
+});
+
 authRouter.patch("/user/:id?", validateToken, async (req, res) => {
   try {
     const response = await controller.updateUser(
