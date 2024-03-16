@@ -23,8 +23,8 @@ class orderController {
     
       const filePath = 'output.html';
 
-      await UpdateSerialNumber.write_html(filePath,html_content)
-      // await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
+      // await UpdateSerialNumber.write_html(filePath,html_content)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
       
       const currentDate = new Date(); // Get current date
       currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
