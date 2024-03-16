@@ -78,6 +78,7 @@ class orderController {
       let getData;
       if (query.date) {
         const startDate = new Date(query.date);
+        startDate.setTime(startDate.getTime() + (1 * 60 * 60 * 1000));
         startDate.setHours(0, 0, 0, 0);
 
         const endDate = new Date(startDate);
