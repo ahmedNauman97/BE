@@ -23,10 +23,12 @@ class orderController {
     
       const filePath = 'output.html';
 
-      // await UpdateSerialNumber.write_html(filePath,html_content)
-      await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
+      await UpdateSerialNumber.write_html(filePath,html_content)
+      // await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
       
       const currentDate = new Date(); // Get current date
+      currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
+      
       const previousDate = new Date(currentDate); // Create a new date object based on the current date
       previousDate.setDate(currentDate.getDate() - 2); // Subtract the specified number of days from the current date
 
@@ -115,6 +117,7 @@ class orderController {
     try {
       const data = await Order.find();
       const currentDate = new Date();
+      currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
 
       const todayDate = currentDate.toISOString().split("T")[0];
       const todayOrders = data.filter(

@@ -19,7 +19,8 @@ class giftCardController {
       let formattedNumber = String(serialNumber).padStart(6, '0')
       // Get the current date
       const currentDate = new Date(); 
-      
+      currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
+
       // Format the date as DD:MM:YYYY
       const day = String(currentDate.getDate()).padStart(2, '0');
       const month = String(currentDate.getMonth() + 1).padStart(2, '0');

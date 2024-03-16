@@ -119,6 +119,7 @@ class OrderMiddleware {
           let count_object;
           // Get the current date
           const currentDate = new Date();
+          currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
     
           // Format the date as DD:MM:YYYY
           const day = String(currentDate.getDate()).padStart(2, '0');
@@ -162,6 +163,7 @@ class OrderMiddleware {
             let count_object;
             // Get the current date
             const currentDate = new Date();
+            currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
       
             // Format the date as DD:MM:YYYY
             const day = String(currentDate.getDate()).padStart(2, '0');
@@ -225,6 +227,7 @@ class OrderMiddleware {
             let count_object;
             // Get the current date
             const currentDate = new Date(); 
+            currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
       
             // Format the date as DD:MM:YYYY
             const day = String(currentDate.getDate()).padStart(2, '0');
@@ -283,6 +286,7 @@ class OrderMiddleware {
 
     static async write_html (filePath,html_content) {
 
+        console.log("JDJD")
         // File path where you want to save the HTML file
         fs.writeFile(filePath, html_content, (err) => {
             if (err) {
