@@ -85,11 +85,16 @@ class authController {
           message: "Only admin can get access",
         };
       }
-
+      let obj = { ...body }
+      if(body.password){
+        const hashPassword = await bcrypt.hash(body.password, 10);
+        let bodyObj = {...body,password:hashPassword}
+        obj = { ...bodyObj }
+      }
       const updateUser = await User.findByIdAndUpdate(
         id,
         {
-          $set: { ...body },
+          $set: obj,
         },
         { new: true }
       );

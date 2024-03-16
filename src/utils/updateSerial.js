@@ -8,19 +8,14 @@ const axios = require("axios")
 const UpdateSerialNumber = require("../utils/updateSerial")
 
 async function convertHtmlToImage(htmlContent, outputFile,width) {
-    const browser = await puppeteer.launch({
-      args: [
-        "--disable-setuid-sandbox",
-        "--no-sandbox",
-        "--single-process",
-        "--no-zygote",
-      ],
-      headless:true,
-      executablePath:
-        process.env.NODE_ENV === "production"
-          ? process.env.PUPPETEER_EXECUTABLE_PATH
-          : puppeteer.executablePath(),
-    });
+    const browser = await launch(
+      executablePath='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 
+      headless=True,
+      handleSIGINT=False,
+      handleSIGTERM=False,
+      handleSIGHUP=False
+    )
+
     const page = await browser.newPage();
   
     // Set the content
@@ -274,22 +269,14 @@ class OrderMiddleware {
             } else {
                 console.log('HTML file saved successfully!');
                 const htmlContent = fs.readFileSync(filePath, 'utf8');
-
-                const outputFilePath = path.join(__dirname, 'output.png');
-                convertHtmlToImage(htmlContent, outputFilePath,width)
-                    .then(() => {
-                    // Read the image file
-                    const inputImagePath = path.join(__dirname, 'output.png');
-                    const imageData = fs.readFileSync(inputImagePath);
-                    axios.post(report ? process.env.PYTHON_BACKEND + "/printReport" : process.env.PYTHON_BACKEND + "/printReceipt", imageData, {
-                        headers: {
-                            'Content-Type': 'image/png' // Adjust the content type based on your image type
-                        }
-                    })
-                    })
-                    .catch((error) => {
-                        console.error('Error converting HTML to image:', error);
-                });
+                axios.post(report ? process.env.PYTHON_BACKEND + "/printReport" : process.env.PYTHON_BACKEND + "/printReceipt", {
+                  htmlContent,
+                  width
+                }, {
+                  headers: {
+                      'Content-Type': 'application/json' // Adjust the content type based on your image type
+                  }
+              })
             }
         });
     }
