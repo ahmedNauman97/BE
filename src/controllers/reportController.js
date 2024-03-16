@@ -6,7 +6,6 @@ class reportController {
   async createReport(body,user) {
     try {
 
-      console.log(1)
       const startDate = new Date();
       startDate.setHours(0, 0, 0, 0);
 
@@ -20,8 +19,6 @@ class reportController {
         },
       }).populate("orders.categoryId")
 
-      console.log(2)
-      
       let cash_pin_data = {cash:0,cashTotal:0,pin:0,pinTotal:0}
       for (let index = 0; index < getData.length; index++) {
         for (let index_1 = 0; index_1 < getData[index].orders.length; index_1++) {
@@ -42,7 +39,6 @@ class reportController {
         return accumulator;
       }, []);
 
-      console.log(3)
       let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length)
 
       let { count_object, formattedDate, formattedTime } = await UpdateSerialNumber.updateZSerialNumber()
@@ -71,17 +67,16 @@ class reportController {
         excludingVat,
         vatAmount,
         totalAmount,
-        cash_pin_data
+        cash_pin_data,
+        true
       )
       
-      console.log(5)
       await UpdateSerialNumber.resetSerialNumber()
 
       const filePath = 'output.html';
   
       // await UpdateSerialNumber.write_html(filePath,html_content) 
       await UpdateSerialNumber.print_receipt(html_content,filePath,true)
-      console.log(6)
       return {
         code: 201,
         message: "User Created Successfully",
@@ -159,15 +154,16 @@ class reportController {
         excludingVat,
         vatAmount,
         totalAmount,
-        cash_pin_data
+        cash_pin_data,
+        false
       )
       
       await UpdateSerialNumber.resetSerialNumber()
 
       const filePath = 'output.html';
   
-      // await UpdateSerialNumber.write_html(filePath,html_content) 
-      await UpdateSerialNumber.print_receipt(html_content,filePath,true)
+      await UpdateSerialNumber.write_html(filePath,html_content) 
+      // await UpdateSerialNumber.print_receipt(html_content,filePath,true)
       console.log(6)
       return {
         code: 201,

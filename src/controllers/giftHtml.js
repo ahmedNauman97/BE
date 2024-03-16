@@ -63,14 +63,17 @@ const gift_receipt = (amount,serial,date,time) => {
                 text-align: center;
                 width: 100%;
                 margin-top:20px;
-                font-size: 12px;
+                font-weight: bolder;
             }
         </style>
     </head>
     <body>
         <div >
             <div class="header_1">
-                <h1 style="margin: 0; font-size:18px">Cadeaubon/tegeedbon ten waarde van</h1>
+                <h1 style="margin: 0; font-size:50px">MA CHERIE</h1>
+            </div>
+            <div class="header_1">
+                <h1 style="margin: 0; font-size:15px">Cadeaubon/tegeedbon ten waarde van</h1>
             </div>
             <div class="address">
                 <p style="margin: 0;">€</p>
@@ -82,10 +85,10 @@ const gift_receipt = (amount,serial,date,time) => {
                 <p style="margin-bottom: 0;">${serial}</p>
             </div>
             <div class="footer">
-                <p style="margin: 0;">6 mandaan geldig</p>
-                <p style="margin: 0;">Het bedrag dient in een keer te worden uitgegeven.</p>
-                <p style="margin: 0;">Cadeaubonnen of restwaarde ervan zijn niet inwisselbaar</p>
-                <p style="margin: 0;">voor geld.</p>
+                <p style="margin: 0; font-size:15px">6 mandaan geldig</p>
+                <p style="margin: 0;  font-size:12px">Het bedrag dient in een keer te worden uitgegeven.</p>
+                <p style="margin: 0;  font-size:12px">Cadeaubonnen of restwaarde ervan zijn niet inwisselbaar</p>
+                <p style="margin: 0;  font-size:15px">voor geld.</p>
             </div>
     
         </div>

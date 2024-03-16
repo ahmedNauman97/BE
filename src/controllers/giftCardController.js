@@ -16,7 +16,7 @@ class giftCardController {
       });
       await Gift.save();
 
-      let formattedNumber = String(serialNumber).padStart(6, '0')
+      let formattedNumber = String(serialNumber).padStart(3, '0')
       // Get the current date
       const currentDate = new Date(); 
       currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));

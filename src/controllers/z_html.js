@@ -123,7 +123,6 @@ const cashier = (data,role,serial,excludingVat,vatAmount,totalAmount) => {
             </div>
             <div class="sub_section">
                 <div class="hr-line"></div>
-                <div class="hr-line"></div>
                 <div class="sub_info">
                     <p style="margin: 0;">${role}</p>
                     <p style="margin: 0;">1</p>
@@ -182,7 +181,7 @@ const PLU = (data, serial, excludingVat, vatAmount, totalAmount) => {
     `;
 };
 
-const take_products_generate_z_report = (data,serial,date,time,role,excludingVat,vatAmount,totalAmount,cash_pin_data) => {
+const take_products_generate_z_report = (data,serial,date,time,role,excludingVat,vatAmount,totalAmount,cash_pin_data,zReport = false) => {
     const html_content = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -198,7 +197,7 @@ const take_products_generate_z_report = (data,serial,date,time,role,excludingVat
             }
             .hr-line {
                 border-bottom: 10px solid #000; /* Adjust the color and thickness as needed */
-                margin: 50px 0px; /* Adjust the margin as needed */
+                margin: 25px 0px; /* Adjust the margin as needed */
             }
             .container {
                 max-width: 400px;
@@ -209,6 +208,8 @@ const take_products_generate_z_report = (data,serial,date,time,role,excludingVat
             }
             .header_1 {
                 text-align: center;
+                margin:-35px;
+
             }
             .header_2 {
                 text-align: center;
@@ -250,16 +251,16 @@ const take_products_generate_z_report = (data,serial,date,time,role,excludingVat
                 margin-bottom: 50px
             }
             .sub_section {
-                margin-top: 50px;
+                margin-top: 25px;
                 font-size:20px;
-                padding: 0px 60px
+                padding: 0px 25px
             }
         </style>
     </head>
     <body>
         <div>
             <div class="info">
-                <p>X/Z</p>
+                <p>${zReport ? "X/Z" : "X/X" }</p>
                 <p>${role}</p>
                 <p>${date}     ${time}</p>
                 <p>${serial}</p>

@@ -78,7 +78,7 @@ const take_products = (products,total,serial,date,time,role,cash) => {
     <body>
         <div >
             <div class="header_1">
-                <h1 style="margin: 0; font-size:50px">MA CHERIE</h1>
+                <h1 style="margin: 0; font-size:50px">MA CHERIE</h1> 
             </div>
             <div class="address">
                 <p style="margin: 0;">NOORDMOLENSTRAAT 79 A</p>
@@ -92,7 +92,7 @@ const take_products = (products,total,serial,date,time,role,cash) => {
                 <p style="margin-bottom: 0;">${date}     ${time}</p>
                 <p style="margin-bottom: 0;">${serial}</p>
             </div>
-            ${products.map(product => return_product(product))}
+            ${products.map(product => return_product(product)).join('')}
             <div class="products">
                 <div>
                     <p style="margin-bottom: 0;">Total Ex VAT</p>

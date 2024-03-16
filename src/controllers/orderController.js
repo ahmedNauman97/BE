@@ -39,14 +39,17 @@ class orderController {
         orders: [...body.orders],
         cash:body.cash
       });
-      const updateInventory = body.orders.map(async (order) => {
-        const findProduct = await AppUtils.updateInventory(
-          order.productId,
-          order.quantity
-        );
-        return findProduct;
-      });
-      await Promise.all(updateInventory);
+
+      // **** This is the function of inventory **** //
+      // const updateInventory = body.orders.map(async (order) => {
+      //   const findProduct = await AppUtils.updateInventory(
+      //     order.productId,
+      //     order.quantity
+      //   );
+      //   return findProduct;
+      // });
+      // await Promise.all(updateInventory);
+      
       await createOrder.save();
 
       return {
