@@ -8,7 +8,6 @@ const controller = new orderController();
 
 orderRouter.post("/", validateToken, async (req, res) => {
   try {
-    console.log("NAUMAN")
     const response = await controller.createOrder(req.body, req.user);
     res.status(response.code).send(response);
   } catch (error) {
@@ -27,6 +26,16 @@ orderRouter.get("/", validateToken, async (req, res) => {
 orderRouter.get("/status", validateToken, async (req, res) => {
   try {
     const response = await controller.getStatus(req.user);
+  } catch (error) {
+    res.status(error.code).send(error);
+  }
+});
+orderRouter.post("/openDrawer", validateToken, async (req, res) => {
+  try {
+    console.log("CHALA 1111")
+    const response = await controller.openDrawer(req.body, req.user);
+    console.log("CHALA",response)
+    res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);
   }

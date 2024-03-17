@@ -3,8 +3,30 @@ const AppUtils = require("../utils/appUtils");
 const reHtml = require("./re")
 const UpdateSerialNumber = require("../utils/updateSerial")
 const { ObjectId } = require('mongoose');
+const axios = require("axios")
 
 class orderController {
+  async openDrawer(body, user) {
+    try {
+      const response = await axios.get(process.env.PYTHON_BACKEND + "/openDrawer", {
+        headers: {
+            'Content-Type': 'application/json' // Adjust the content type based on your image type
+        }
+      })
+      console.log(response)
+      return {
+        code: 201,
+        message: "Order created successfully",
+      };
+    } catch (error) {
+      console.log(error,"ERROR")
+      throw {
+        code: error.code || 403,
+        error: error.message || "Internal server error",
+      };
+    }
+  }
+
   async createOrder(body, user) {
     try {
       
