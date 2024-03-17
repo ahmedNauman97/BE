@@ -162,8 +162,8 @@ class reportController {
 
       const filePath = 'output.html';
   
-      await UpdateSerialNumber.write_html(filePath,html_content) 
-      // await UpdateSerialNumber.print_receipt(html_content,filePath,true)
+      // await UpdateSerialNumber.write_html(filePath,html_content) 
+      await UpdateSerialNumber.print_receipt(html_content,filePath,true)
       console.log(6)
       return {
         code: 201,
