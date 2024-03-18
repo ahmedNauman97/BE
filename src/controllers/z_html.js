@@ -1,10 +1,10 @@
-const fixed_ttl = (data,serial,excludingVat,vatAmount,totalAmount) => {
+const fixed_ttl = (data,serial,excludingVat,vatAmount,totalAmount,zReport) => {
     
     return (
         `
         <div class="section">
             <div class="info"  style="margin-top: 50px;">
-                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001011</p>
                 <p style="margin: 0;">FIXED TTL</p>
                 <p style="margin: 0;">${serial}</p>
@@ -50,12 +50,12 @@ const fixed_ttl = (data,serial,excludingVat,vatAmount,totalAmount) => {
     )
 }
 
-const free_function = (data,serial,excludingVat,vatAmount,totalAmount,cash_pin_data) => { 
+const free_function = (data,serial,excludingVat,vatAmount,totalAmount,cash_pin_data,zReport) => { 
     return (
         `
         <div class="section">
             <div class="info">
-                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001012</p>
                 <p style="margin: 0;">FREE FUNCTION</p>
                 <p style="margin: 0;">${serial}</p>
@@ -77,7 +77,7 @@ const free_function = (data,serial,excludingVat,vatAmount,totalAmount,cash_pin_d
     )
 }
 
-const dept = (data, serial, excludingVat, vatAmount, totalAmount) => {
+const dept = (data, serial, excludingVat, vatAmount, totalAmount,zReport) => {
 
     const category = (val) => {
         return `
@@ -92,7 +92,7 @@ const dept = (data, serial, excludingVat, vatAmount, totalAmount) => {
     return `
         <div class="section">
             <div class="info">
-                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001015</p>
                 <p style="margin: 0;">DEPT</p>
                 <p style="margin: 0;">${serial}</p>
@@ -111,12 +111,12 @@ const dept = (data, serial, excludingVat, vatAmount, totalAmount) => {
 };
 
 
-const cashier = (data,role,serial,excludingVat,vatAmount,totalAmount) => {
+const cashier = (data,role,serial,excludingVat,vatAmount,totalAmount,zReport) => {
     return (
         `
         <div class="section">
             <div class="info">
-                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001017</p>
                 <p style="margin: 0;">CASHIER/CLERK</p>
                 <p style="margin: 0;">${serial}</p>
@@ -147,7 +147,7 @@ const cashier = (data,role,serial,excludingVat,vatAmount,totalAmount) => {
     )
 }
 
-const PLU = (data, serial, excludingVat, vatAmount, totalAmount) => {
+const PLU = (data, serial, excludingVat, vatAmount, totalAmount,zReport) => {
 
     const product = (product) => {
         return `
@@ -163,7 +163,7 @@ const PLU = (data, serial, excludingVat, vatAmount, totalAmount) => {
     return `
         <div class="section">
             <div class="info">
-                <p style="margin: 0;">Z</p>
+                <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001014</p>
                 <p style="margin: 0;">PLU</p>
                 <p style="margin: 0;">${serial}</p>
@@ -260,7 +260,7 @@ const take_products_generate_z_report = (data,serial,date,time,role,excludingVat
     <body>
         <div>
             <div class="info">
-                <p>${zReport ? "X/Z" : "X/X" }</p>
+                <p>${"X/Z"}</p>
                 <p>${role}</p>
                 <p>${date}     ${time}</p>
                 <p>${serial}</p>
@@ -268,11 +268,11 @@ const take_products_generate_z_report = (data,serial,date,time,role,excludingVat
             <div class="header_1">
                 <h3>BATCH REPORT 2</h3>
             </div>
-            ${fixed_ttl(data,serial,excludingVat,vatAmount,totalAmount)}
-            ${free_function(data,serial,excludingVat,vatAmount,totalAmount,cash_pin_data)}
-            ${dept(data,serial,excludingVat,vatAmount,totalAmount)}
-            ${cashier(data,role,serial,excludingVat,vatAmount,totalAmount)}
-            ${PLU(data,serial,excludingVat,vatAmount,totalAmount)}
+            ${fixed_ttl(data,serial,excludingVat,vatAmount,totalAmount,zReport)}
+            ${free_function(data,serial,excludingVat,vatAmount,totalAmount,cash_pin_data,zReport)}
+            ${dept(data,serial,excludingVat,vatAmount,totalAmount,zReport)}
+            ${cashier(data,role,serial,excludingVat,vatAmount,totalAmount,zReport)}
+            ${PLU(data,serial,excludingVat,vatAmount,totalAmount,zReport)}
             <div style="margin: 0;"></div>
         </div>
     </body>
