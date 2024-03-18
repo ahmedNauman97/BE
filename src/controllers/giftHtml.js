@@ -38,7 +38,7 @@ const gift_receipt = (amount,serial,date,time) => {
             }
             p {
             }
-            .info {
+            .info { 
                 display: flex;
                 justify-content: space-around;
             }
@@ -64,7 +64,7 @@ const gift_receipt = (amount,serial,date,time) => {
                 width: 100%;
                 margin-top:20px;
                 font-weight: bolder;
-                font-size:18px;
+                font-size:20px;
             }
         </style>
     </head>
