@@ -2,39 +2,9 @@ const SerialNumber = require("../models/receiptSerial");
 const ZReportSerial = require("../models/zReportSerial");
 const XReportSerial = require("../models/xReportSerial");
 const fs = require('fs');
-const puppeteer = require('puppeteer');
-const path = require('path');
 const axios = require("axios")
-const UpdateSerialNumber = require("../utils/updateSerial")
+const { formattedTimeDateStorage } = require("../utils/getDateTime")
 
-async function convertHtmlToImage(htmlContent, outputFile,width) {
-    const browser = await launch(
-      executablePath='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', 
-      headless=True,
-      handleSIGINT=False,
-      handleSIGTERM=False,
-      handleSIGHUP=False
-    )
-
-    const page = await browser.newPage();
-  
-    // Set the content
-    await page.setContent(htmlContent);
-  
-    // Get the total height of the content
-    const bodyHeight = await page.evaluate(() => {
-        return document.body.scrollHeight;
-    });
-  
-    // Set the viewport height to the height of the content
-    await page.setViewport({ width: width, height: bodyHeight + 20 });
-  
-    // Capture a screenshot of the entire page
-    await page.screenshot({ path: outputFile });
-  
-    await browser.close();
-    console.log('HTML converted to image:', outputFile);
-}
 
 class OrderMiddleware {
 
@@ -117,20 +87,7 @@ class OrderMiddleware {
           const number = await XReportSerial.find()
           let count;
           let count_object;
-          // Get the current date
-          const currentDate = new Date();
-          currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
-    
-          // Format the date as DD:MM:YYYY
-          const day = String(currentDate.getDate()).padStart(2, '0');
-          const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-          const year = currentDate.getFullYear();
-          const formattedDate = `${day}:${month}:${year}`;
-    
-          // Format the time as HH:MM
-          const hours = String(currentDate.getHours()).padStart(2, '0');
-          const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-          const formattedTime = `${hours}:${minutes}`;
+          let { formattedDate, formattedTime } = formattedTimeDateStorage()
     
           if(number.length == 0){
             count = await new XReportSerial({
@@ -161,20 +118,8 @@ class OrderMiddleware {
             const number = await ZReportSerial.find()
             let count;
             let count_object;
-            // Get the current date
-            const currentDate = new Date();
-            currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
-      
-            // Format the date as DD:MM:YYYY
-            const day = String(currentDate.getDate()).padStart(2, '0');
-            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-            const year = currentDate.getFullYear();
-            const formattedDate = `${day}:${month}:${year}`;
-      
-            // Format the time as HH:MM
-            const hours = String(currentDate.getHours()).padStart(2, '0');
-            const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-            const formattedTime = `${hours}:${minutes}`;
+            let { formattedDate, formattedTime } = formattedTimeDateStorage()
+
       
             if(number.length == 0){
               count = await new ZReportSerial({
@@ -225,20 +170,8 @@ class OrderMiddleware {
             const number = await SerialNumber.find()
             let count;
             let count_object;
-            // Get the current date
-            const currentDate = new Date(); 
-            currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
-      
-            // Format the date as DD:MM:YYYY
-            const day = String(currentDate.getDate()).padStart(2, '0');
-            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-            const year = currentDate.getFullYear();
-            const formattedDate = `${day}:${month}:${year}`;
-      
-            // Format the time as HH:MM
-            const hours = String(currentDate.getHours()).padStart(2, '0');
-            const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-            const formattedTime = `${hours}:${minutes}`;
+            let { formattedDate, formattedTime } = formattedTimeDateStorage()
+
       
             if(number.length == 0){
               count = await new SerialNumber({

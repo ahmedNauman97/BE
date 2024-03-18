@@ -41,6 +41,7 @@ const gift_receipt = (amount,serial,date,time) => {
             .info { 
                 display: flex;
                 justify-content: space-around;
+                font-weight: bolder;
             }
             .products {
                 text-align: center;

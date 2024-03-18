@@ -4,6 +4,7 @@ const reHtml = require("./re")
 const UpdateSerialNumber = require("../utils/updateSerial")
 const { ObjectId } = require('mongoose');
 const axios = require("axios")
+const { formattedTimeDateStorage } = require("../utils/getDateTime")
 
 class orderController {
   async openDrawer(body, user) {
@@ -48,11 +49,7 @@ class orderController {
       // await UpdateSerialNumber.write_html(filePath,html_content)
       await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
       
-      const currentDate = new Date(); // Get current date
-      currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
-      
-      const previousDate = new Date(currentDate); // Create a new date object based on the current date
-      previousDate.setDate(currentDate.getDate() - 2); // Subtract the specified number of days from the current date
+      let { currentDate } = formattedTimeDateStorage()
 
       const createOrder = await new Order({
         userId: user._id,

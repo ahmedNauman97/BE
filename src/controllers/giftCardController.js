@@ -1,6 +1,7 @@
 const Giftt = require("../models/giftCard");
 const giftCardHtml = require("./giftHtml")
 const UpdateSerialNumber = require("../utils/updateSerial")
+const { formattedTimeDateStorage } = require("../utils/getDateTime")
 
 class giftCardController {
   async createGift(body, user) {
@@ -17,20 +18,7 @@ class giftCardController {
       await Gift.save();
 
       let formattedNumber = String(serialNumber).padStart(3, '0')
-      // Get the current date
-      const currentDate = new Date(); 
-      currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
-
-      // Format the date as DD:MM:YYYY
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const year = currentDate.getFullYear();
-      const formattedDate = `${day}:${month}:${year}`;
-
-      // Format the time as HH:MM
-      const hours = String(currentDate.getHours()).padStart(2, '0');
-      const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-      const formattedTime = `${hours}:${minutes}`;
+      let { formattedDate, formattedTime } = formattedTimeDateStorage()
       
       const html_content = giftCardHtml.gift_receipt(
         body.amount,
