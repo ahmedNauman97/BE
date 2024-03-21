@@ -32,9 +32,7 @@ orderRouter.get("/status", validateToken, async (req, res) => {
 });
 orderRouter.post("/openDrawer", validateToken, async (req, res) => {
   try {
-    console.log("CHALA 1111")
     const response = await controller.openDrawer(req.body, req.user);
-    console.log("CHALA",response)
     res.status(response.code).send(response);
   } catch (error) {
     res.status(error.code).send(error);
@@ -45,7 +43,7 @@ orderRouter.post("/delete", validateToken, async (req, res) => {
     if(req.user.email == "shaad@gmail.com"){
       const response = await controller.deleteEnteries(req.body.toDelete,req.user);
     }
-    res.status(403).send("Internal Server Error");
+    res.status(201).send("Order deleted successfully");
   } catch (error) {
     res.status(error.code).send(error);
   }
