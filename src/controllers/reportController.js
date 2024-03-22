@@ -13,11 +13,12 @@ class reportController {
       endDate.setDate(startDate.getDate() + 1);
 
       let getData = await Order.find({
-        date: {
-          $gte: startDate,
-          $lt: endDate,
-        },
-      }).populate("orders.categoryId")
+          date: {
+              $gte: startDate,
+              $lt: endDate,
+          },
+      }).populate("orders.categoryId orders.productId");
+
 
       let cash_pin_data = {cash:0,cashTotal:0,pin:0,pinTotal:0}
       for (let index = 0; index < getData.length; index++) {
@@ -29,6 +30,7 @@ class reportController {
           cash_pin_data.pinTotal += getData[index].totalPrice
         }
       }
+
       // Combine all orders into a single array
       const combinedOrders = getData.reduce((accumulator, currentValue) => {
         accumulator.push(...currentValue.orders);
@@ -39,7 +41,7 @@ class reportController {
 
       let { count_object, formattedDate, formattedTime } = await UpdateSerialNumber.updateZSerialNumber()
 
-      console.log(4)
+      console.log(cash_pin_data,formattedDate, formattedTime)
 
       // Total amount
       const totalAmount = zReportData.grandTotalSales;
@@ -54,7 +56,6 @@ class reportController {
       const vatAmount = totalAmount - excludingVat;
 
       let formattedNumber = String(count_object.serialNumber).padStart(3, '0')
-      console.log(cash_pin_data)
       const html_content = zHtml.take_products_generate_z_report(
         zReportData,
         formattedNumber,
@@ -73,7 +74,7 @@ class reportController {
       const filePath = 'output.html';
   
       // await UpdateSerialNumber.write_html(filePath,html_content) 
-      await UpdateSerialNumber.print_receipt(html_content,filePath,true)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash)
       return {
         code: 201,
         message: "User Created Successfully",

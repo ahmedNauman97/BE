@@ -47,7 +47,7 @@ class orderController {
       const filePath = 'output.html';
 
       // await UpdateSerialNumber.write_html(filePath,html_content)
-      await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350,body.cash)
       
       let { currentDate } = formattedTimeDateStorage()
 

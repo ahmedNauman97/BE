@@ -33,19 +33,6 @@ class OrderMiddleware {
                 group.totalSale = group.orders.reduce((total, order) => total + order.price, 0);
             });
             
-            // Using reduce with if-else to sum even and odd numbers separately
-            const cash_pin_total = groupedCategory.reduce((accumulator, order) => {
-              if (order.cash) {
-                accumulator.cash += 1;
-                accumulator.cashTotal += order.price; 
-              } else {
-                accumulator.pin += 1;
-                accumulator.pinTotal += order.price; 
-              }
-              
-              return accumulator;
-            }, { cash: 0, cashTotal:0, pin: 0, pinTotal: 0 });
-            
             // Calculate grandTotal
             const grandTotalSales = groupedCategory.reduce((total, group) => total + group.totalSale, 0);
 
@@ -62,7 +49,7 @@ class OrderMiddleware {
                     productId: order.productId,
                     name: order.name,
                     quantity: order.quantity,
-                    price: order.price,
+                    price: order.productId.price,
                     categoryId: order.categoryId,
                   });
                 }
@@ -74,7 +61,6 @@ class OrderMiddleware {
 
             return {orderLength,groupedCategory,grandTotalSales,groupedProduct}
         } catch (error) {
-          console.log("NAUMAN")
             throw {
                 code: 404,
                 message: "Error in Execution",
@@ -197,7 +183,7 @@ class OrderMiddleware {
         }
     }
 
-    static async print_receipt (html_content,filePath,report=false,width=500) {
+    static async print_receipt (html_content,filePath,report=false,width=500,cash) {
        
         fs.writeFile(filePath, html_content, (err) => {
             if (err) {
@@ -207,7 +193,8 @@ class OrderMiddleware {
                 const htmlContent = fs.readFileSync(filePath, 'utf8');
                 axios.post(report ? process.env.PYTHON_BACKEND + "/printReport" : process.env.PYTHON_BACKEND + "/printReceipt", {
                   htmlContent,
-                  width
+                  width,
+                  cash
                 }, {
                   headers: {
                       'Content-Type': 'application/json' // Adjust the content type based on your image type
