@@ -11,7 +11,7 @@ const return_product = (product) => {
     )
 }
 
-const take_products = (products,total,serial,date,time,role,cash) => {
+const take_products = (products,total,serial,date,time,role,cash,copyReceipt=false) => {
     const html_content = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -86,6 +86,10 @@ const take_products = (products,total,serial,date,time,role,cash) => {
                 <p style="margin: 0;">WHATSAPP; 0684202826</p>
                 <h1 style="margin: 0;  font-size:20px">www.macherie010.com</h1>
             </div>
+            ${copyReceipt && `<div class="address">
+                    <h1 style="margin: 0;  font-size:20px">COPY</h1>
+                </div>`
+            }
             <div class="info"  style="margin-bottom: 20px;">
                 <p style="margin-bottom: 0;">REG</p>
                 <p style="margin-bottom: 0;">${role}</p>

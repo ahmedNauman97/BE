@@ -206,7 +206,6 @@ class OrderMiddleware {
 
     static async write_html (filePath,html_content) {
 
-        console.log("JDJD")
         // File path where you want to save the HTML file
         fs.writeFile(filePath, html_content, (err) => {
             if (err) {

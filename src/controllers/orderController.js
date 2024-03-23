@@ -30,7 +30,7 @@ class orderController {
 
   async createOrder(body, user) {
     try {
-      
+
       let { count_object, formattedDate, formattedTime } = await UpdateSerialNumber.updateSerialNumber()
 
       let formattedNumber = String(count_object.serialNumber).padStart(6, '0')
@@ -59,7 +59,10 @@ class orderController {
         cash:body.cash
       });
 
+      await createOrder.save();
+
       // **** This is the function of inventory **** //
+
       // const updateInventory = body.orders.map(async (order) => {
       //   const findProduct = await AppUtils.updateInventory(
       //     order.productId,
@@ -69,7 +72,6 @@ class orderController {
       // });
       // await Promise.all(updateInventory);
       
-      await createOrder.save();
 
       return {
         code: 201,
@@ -83,6 +85,50 @@ class orderController {
       };
     }
   }
+
+  async copyReceipt(body, user) {
+    try {
+      
+
+      const lastOrder = await Order.findOne({})
+      .sort({ _id: -1 })
+      .populate("userId")
+      .populate("orders.categoryId")
+
+      console.log(lastOrder)
+      let { count_object, formattedDate, formattedTime } = await UpdateSerialNumber.updateSerialNumber()
+
+      let formattedNumber = String(count_object.serialNumber).padStart(6, '0')
+      const html_content = reHtml.take_products(
+        lastOrder.orders,
+        lastOrder.totalPrice,
+        "000000",
+        formattedDate,
+        formattedTime,
+        lastOrder.userId.lastName,
+        lastOrder.cash,
+        true
+      )
+    
+      const filePath = 'output.html';
+
+      // await UpdateSerialNumber.write_html(filePath,html_content)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350,body.cash)
+      
+
+      return {
+        code: 201,
+        message: "Order created successfully",
+      };
+    } catch (error) {
+      console.log("ERROR",error)
+      throw {
+        code: error.code || 403,
+        error: error.message || "Internal server error",
+      };
+    }
+  }
+
   async getOrdersDetail(user, query) {
     try {
       if (user.role !== "ADMIN") {

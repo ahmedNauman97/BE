@@ -38,6 +38,18 @@ orderRouter.post("/openDrawer", validateToken, async (req, res) => {
     res.status(error.code).send(error);
   }
 });
+
+orderRouter.post("/CopyReceipt", validateToken, async (req, res) => {
+  try {
+    console.log("lastOrder")
+    const response = await controller.copyReceipt(req.body, req.user);
+    res.status(response.code).send(response);
+  } catch (error) {
+    console.log("lastOrder")
+    res.status(error.code).send(error);
+  }
+});
+
 orderRouter.post("/delete", validateToken, async (req, res) => {
   try {
     if(req.user.email == "shaad@gmail.com"){
