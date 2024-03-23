@@ -6,8 +6,16 @@ class reportController {
   async createReport(body,user) {
     try {
 
-      const startDate = new Date();
-      startDate.setHours(0, 0, 0, 0);
+      let startDate = new Date();
+      if(body.dateSelected){
+        startDate = new Date(body.dateSelected);
+      }
+     // Set the time to 00:00:00
+      startDate.setHours(1);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      startDate.setMilliseconds(0);
+
 
       const endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + 1);
@@ -15,10 +23,16 @@ class reportController {
       let getData = await Order.find({
           date: {
               $gte: startDate,
-              $lt: endDate,
+              $lte: endDate,
           },
       }).populate("orders.categoryId orders.productId");
 
+      if(!getData.length){
+        return {
+          code: 202,
+          message: "No Data to be Found",
+        };
+      }
 
       let cash_pin_data = {cash:0,cashTotal:0,pin:0,pinTotal:0}
       for (let index = 0; index < getData.length; index++) {
@@ -29,7 +43,9 @@ class reportController {
           cash_pin_data.pin += 1
           cash_pin_data.pinTotal += getData[index].totalPrice
         }
-      }
+      } 
+
+      console.log(cash_pin_data)
 
       // Combine all orders into a single array
       const combinedOrders = getData.reduce((accumulator, currentValue) => {
@@ -75,9 +91,10 @@ class reportController {
   
       // await UpdateSerialNumber.write_html(filePath,html_content) 
       await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash)
+
       return {
         code: 201,
-        message: "User Created Successfully",
+        message: "Report Created Successfully",
       };
     } catch (error) {
         console.log("Error",error.message)
@@ -90,8 +107,12 @@ class reportController {
 
   async createReportX(body,user) {
     try {
-
-      console.log(1)
+      if (req.user.role !== "ADMIN") {
+        throw {
+          code: 401,
+          message: "Only admin can get access",
+        };
+      }
       const startDate = new Date();
       startDate.setHours(0, 0, 0, 0);
 
@@ -165,7 +186,7 @@ class reportController {
       console.log(6)
       return {
         code: 201,
-        message: "User Created Successfully",
+        message: "Report Created Successfully",
       };
     } catch (error) {
         console.log("Error",error.message)

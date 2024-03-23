@@ -159,6 +159,7 @@ class orderController {
       } else {
         totalPages = (await Order.find()).length;
         getData = await Order.find()
+          .sort({ _id: -1 })
           .skip((currentPage - 1) * limit)
           .limit(limit);
       }
