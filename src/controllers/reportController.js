@@ -22,7 +22,10 @@ class reportController {
       endDate.setDate(startDate.getDate() + 1);
 
       let getData = await Order.find({
-          
+        date: {
+          $gte: startDate,
+          $lt: endDate,
+        },
       }).populate("orders.categoryId orders.productId");
 
       if(!getData.length){
