@@ -15,12 +15,9 @@ const return_copy = (copyReceipt) => {
 
     if(copyReceipt){
         return (
-            `<div class="products">
-                <div>
-                    <p style="margin: 0;">${product.quantity}     ${product.name}</p>
-                    <p style="margin: 0;">€ ${product.price.toFixed(2)}</p>
-                </div>
-            </div>`
+            `<div class="address">
+            <h1 style="margin: 0;  font-size:20px">www.macherie010.com</h1>
+        </div>`
         )
     }
 
@@ -118,8 +115,8 @@ const take_products = (products,total,serial,date,time,role,cash,copyReceipt=fal
             ${products.map(product => return_product(product)).join('')}
             <div class="products">
                 <div>
-                    <p style="margin-bottom: 0;">Total Ex VAT</p>
-                    <p style="margin-bottom: 0;">€ ${(total * 0.79).toFixed(2)}</p>
+                    <p style="margin: 0;">Total Ex VAT</p>
+                    <p style="margin: 0;">€ ${(total * 0.79).toFixed(2)}</p>
                 </div>
             </div>
             <div class="products">
