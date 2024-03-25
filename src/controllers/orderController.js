@@ -54,6 +54,7 @@ class orderController {
       const createOrder = await new Order({
         userId: user._id,
         date: currentDate,
+        serialNumber:count_object.serialNumber,
         totalPrice: body.totalPrice,
         orders: [...body.orders],
         cash:body.cash
@@ -95,10 +96,8 @@ class orderController {
       .populate("userId")
       .populate("orders.categoryId")
 
-      console.log(lastOrder)
-      let { count_object, formattedDate, formattedTime } = await UpdateSerialNumber.updateSerialNumber()
+      let { formattedDate, formattedTime } = formattedTimeDateStorage()
 
-      let formattedNumber = String(count_object.serialNumber).padStart(6, '0')
       const html_content = reHtml.take_products(
         lastOrder.orders,
         lastOrder.totalPrice,
@@ -120,8 +119,9 @@ class orderController {
         code: 201,
         message: "Order created successfully",
       };
+
     } catch (error) {
-      console.log("ERROR",error)
+      console.log("ERROR",error.message)
       throw {
         code: error.code || 403,
         error: error.message || "Internal server error",

@@ -1,5 +1,7 @@
 const SerialNumber = require("../models/receiptSerial");
 const ZReportSerial = require("../models/zReportSerial");
+const ZReportSerialCopy = require("../models/zReportSerial copy");
+const XReportSerialCopy = require("../models/xReportSerial copy");
 const XReportSerial = require("../models/xReportSerial");
 const fs = require('fs');
 const axios = require("axios")
@@ -55,10 +57,6 @@ class OrderMiddleware {
                 }
                 return acc;
             }, []);
-            
-           
-
-
             return {orderLength,groupedCategory,grandTotalSales,groupedProduct}
         } catch (error) {
             throw {
@@ -68,29 +66,39 @@ class OrderMiddleware {
         }
     }
 
+    static async getPreviousXReportNumber(dateOfReport) {
+
+      // Split the date string by "-" and reverse the array
+      const reversedArray = dateOfReport.split("-").reverse();
+  
+      // Join the reversed array with ":" separator
+      const reversedDateString = reversedArray.join(":");
+  
+      const number = await ZReportSerialCopy.find({
+        dateOfReport: reversedDateString
+      })
+      
+      return {count_object:number[0].serialNumber,formattedDate:number[0].dateOfReport,formattedTime:number[0].timeOfReport}
+  
+    }
+
     static async updateXSerialNumber() {
       try {
-          const number = await XReportSerial.find()
-          let count;
-          let count_object;
-          let { formattedDate, formattedTime } = formattedTimeDateStorage()
-    
-          if(number.length == 0){
-            count = await new XReportSerial({
-              serialNumber: 1
-            })
-            count_object = count
-          }else{
-            count = await XReportSerial.findByIdAndUpdate(
-              number[0]._id,
-              {$set: {serialNumber:number[0].serialNumber + 1}},
-              { new: true }
-            )
-            count_object = count
-          }
-          
-          count.save()
-          return {count_object,formattedDate,formattedTime}
+        let count;
+
+        let { formattedDate, formattedTime } = formattedTimeDateStorage()
+        const number = await XReportSerialCopy.find()
+        
+        count = await new XReportSerialCopy({
+          serialNumber: number.length + 1,
+          dateOfReport:formattedDate,
+          timeOfReport: formattedTime
+        })
+
+        count.save()
+
+        return {count_object:count.serialNumber,formattedDate,formattedTime}
+
       } catch (error) {
           throw {
               code: 404,
@@ -99,37 +107,47 @@ class OrderMiddleware {
       }
   }
 
-    static async updateZSerialNumber() {
-        try {
-            const number = await ZReportSerial.find()
-            let count;
-            let count_object;
-            let { formattedDate, formattedTime } = formattedTimeDateStorage()
+  static async getPreviousZReportNumber(dateOfReport) {
 
-      
-            if(number.length == 0){
-              count = await new ZReportSerial({
-                serialNumber: 1
-              })
-              count_object = count
-            }else{
-              count = await ZReportSerial.findByIdAndUpdate(
-                number[0]._id,
-                {$set: {serialNumber:number[0].serialNumber + 1}},
-                { new: true }
-              )
-              count_object = count
-            }
-            
-            count.save()
-            return {count_object,formattedDate,formattedTime}
+    // Split the date string by "-" and reverse the array
+    const reversedArray = dateOfReport.split("-").reverse();
+
+    // Join the reversed array with ":" separator
+    const reversedDateString = reversedArray.join(":");
+
+    const number = await ZReportSerialCopy.find({
+      dateOfReport: reversedDateString
+    })
+    
+    return {count_object:number[0].serialNumber,formattedDate:number[0].dateOfReport,formattedTime:number[0].timeOfReport}
+
+  }
+
+  static async updateZSerialNumber() {
+      try {
+          let count;
+
+          let { formattedDate, formattedTime } = formattedTimeDateStorage()
+          const number = await ZReportSerialCopy.find()
+          
+          count = await new ZReportSerialCopy({
+            serialNumber: number.length + 1,
+            dateOfReport:formattedDate,
+            timeOfReport: formattedTime
+          })
+
+          count.save()
+
+          return {count_object:count.serialNumber,formattedDate,formattedTime}
+
         } catch (error) {
-            throw {
-                code: 404,
-                message: "Error in Execution",
-              };
-        }
-    }
+          console.log(error.message)
+          throw {
+              code: 404,
+              message: "Error in Execution",
+            };
+      }
+  }
 
     static async resetSerialNumber() {
       try {
@@ -183,7 +201,7 @@ class OrderMiddleware {
         }
     }
 
-    static async print_receipt (html_content,filePath,report=false,width=500,cash) {
+    static async print_receipt (html_content,filePath,report=false,width=500,cash = false) {
        
         fs.writeFile(filePath, html_content, (err) => {
             if (err) {
