@@ -94,7 +94,7 @@ class orderController {
       const lastOrder = await Order.findOne({})
       .sort({ _id: -1 })
       .populate("userId")
-      .populate("orders.categoryId")
+      .populate("orders.categoryId orders.productId")
 
       let { formattedDate, formattedTime } = formattedTimeDateForStoredValues(lastOrder.date)
 
