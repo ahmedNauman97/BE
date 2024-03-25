@@ -11,6 +11,28 @@ const return_product = (product) => {
     )
 }
 
+const return_copy = (copyReceipt) => {
+
+    if(copyReceipt){
+        return (
+            `<div class="products">
+                <div>
+                    <p style="margin: 0;">${product.quantity}     ${product.name}</p>
+                    <p style="margin: 0;">€ ${product.price.toFixed(2)}</p>
+                </div>
+            </div>`
+        )
+    }
+
+    return (
+        `<div>
+        </div>`
+    )
+
+
+
+}
+
 const take_products = (products,total,serial,date,time,role,cash,copyReceipt=false) => {
     const html_content = `<!DOCTYPE html>
     <html lang="en">
@@ -86,10 +108,7 @@ const take_products = (products,total,serial,date,time,role,cash,copyReceipt=fal
                 <p style="margin: 0;">WHATSAPP; 0684202826</p>
                 <h1 style="margin: 0;  font-size:20px">www.macherie010.com</h1>
             </div>
-            ${copyReceipt && `<div class="address">
-                    <h1 style="margin: 0;  font-size:20px">COPY</h1>
-                </div>`
-            }
+            ${return_copy(copyReceipt)}
             <div class="info"  style="margin-bottom: 20px;">
                 <p style="margin-bottom: 0;">REG</p>
                 <p style="margin-bottom: 0;">${role}</p>

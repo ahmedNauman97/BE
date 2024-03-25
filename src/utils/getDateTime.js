@@ -17,11 +17,14 @@ function formattedTimeDateStorage() {
     const formattedTime = `${hours}:${minutes}:${seconds}`;
     return {currentDate,formattedTime,formattedDate}
 }
-function formattedTimeDateForStoredValues() {
+
+function formattedTimeDateForStoredValues(time) {
+    const timestamp = time;
     
     // Get the current date
-    const currentDate = new Date(); 
-
+    const currentDate = new Date(timestamp); 
+    currentDate.setTime(currentDate.getTime() - (1 * 60 * 60 * 1000)); // I had to  minus 1 hour to adjust the time 
+    
     // Format the date as DD:MM:YYYY
     const day = String(currentDate.getDate()).padStart(2, '0');
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -35,5 +38,6 @@ function formattedTimeDateForStoredValues() {
     const formattedTime = `${hours}:${minutes}:${seconds}`;
     return {formattedTime,formattedDate}
 }
+
 
 module.exports = { formattedTimeDateStorage, formattedTimeDateForStoredValues,}

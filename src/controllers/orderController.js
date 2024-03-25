@@ -4,7 +4,7 @@ const reHtml = require("./re")
 const UpdateSerialNumber = require("../utils/updateSerial")
 const { ObjectId } = require('mongoose');
 const axios = require("axios")
-const { formattedTimeDateStorage } = require("../utils/getDateTime")
+const { formattedTimeDateStorage,formattedTimeDateForStoredValues } = require("../utils/getDateTime")
 
 class orderController {
   async openDrawer(body, user) {
@@ -33,7 +33,7 @@ class orderController {
 
       let { count_object, formattedDate, formattedTime } = await UpdateSerialNumber.updateSerialNumber()
 
-      let formattedNumber = String(count_object.serialNumber).padStart(6, '0')
+      let formattedNumber = String(count_object.serialNumber).padStart(3, '0')
       const html_content = reHtml.take_products(
         body.orders,
         body.totalPrice,
@@ -96,12 +96,15 @@ class orderController {
       .populate("userId")
       .populate("orders.categoryId")
 
-      let { formattedDate, formattedTime } = formattedTimeDateStorage()
+      let { formattedDate, formattedTime } = formattedTimeDateForStoredValues(lastOrder.date)
+
+      let ssNumber = lastOrder.serialNumber ? lastOrder.serialNumber : "000000"
+      let formattedNumber = String(ssNumber).padStart(3, '0')
 
       const html_content = reHtml.take_products(
         lastOrder.orders,
         lastOrder.totalPrice,
-        "000000",
+        formattedNumber,
         formattedDate,
         formattedTime,
         lastOrder.userId.lastName,

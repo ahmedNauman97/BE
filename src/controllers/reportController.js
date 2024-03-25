@@ -34,75 +34,63 @@ class reportController {
 
       let cash_pin_data = {cash:0,cashTotal:0,pin:0,pinTotal:0}
       for (let index = 0; index < getData.length; index++) {
-
-        const dateToString = getData[index].date.toISOString().split("T")[0]
-        if(dateToString == "2024-03-24"){
-          if(getData[index].cash){
-            cash_pin_data.cash += 1
-            cash_pin_data.cashTotal += getData[index].totalPrice
-          }else{
-            let pp = getData[index].orders.map((order) => order.price)
-            const sum = pp.reduce((acc, curr) => acc + curr, 0);
-            if(getData[index].totalPrice !== sum) {
-              console.log(getData[index].cash, getData[index].totalPrice,sum)
-            }
-            cash_pin_data.pin += 1
-            cash_pin_data.pinTotal += getData[index].totalPrice
-          }
+        if(getData[index].cash){
+          cash_pin_data.cash += 1
+          cash_pin_data.cashTotal += getData[index].totalPrice
+        }else{
+          cash_pin_data.pin += 1
+          cash_pin_data.pinTotal += getData[index].totalPrice
         }
-
       } 
 
-      console.log(cash_pin_data)
+      // Combine all orders into a single array
+      const combinedOrders = getData.reduce((accumulator, currentValue) => {
+        accumulator.push(...currentValue.orders);
+        return accumulator;
+      }, []);
 
-      // // Combine all orders into a single array
-      // const combinedOrders = getData.reduce((accumulator, currentValue) => {
-      //   accumulator.push(...currentValue.orders);
-      //   return accumulator;
-      // }, []);
-
-      // let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length)
+      let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length)
       
-      // let count_format_time = {}
+      let count_format_time = {}
 
-      // if(body.dateSelected){
-      //   count_format_time = await UpdateSerialNumber.getPreviousZReportNumber(body.dateSelected)
-      // }else{
-      //   count_format_time = await UpdateSerialNumber.updateZSerialNumber()
-      // }
+      if(body.dateSelected){
+        count_format_time = await UpdateSerialNumber.getPreviousZReportNumber(body.dateSelected)
+      }else{
+        count_format_time = await UpdateSerialNumber.updateZSerialNumber()
+      }
 
-      // // Total amount
-      // const totalAmount = zReportData.grandTotalSales;
+      // Total amount
+      const totalAmount = zReportData.grandTotalSales;
 
-      // // VAT rate (21%)
-      // const vatRate = 21;
+      // VAT rate (21%)
+      const vatRate = 21;
 
-      // // Calculate excluding VAT
-      // const excludingVat = totalAmount / (1 + vatRate / 100);
+      // Calculate excluding VAT
+      const excludingVat = totalAmount / (1 + vatRate / 100);
 
-      // // Calculate VAT amount
-      // const vatAmount = totalAmount - excludingVat;
+      // Calculate VAT amount
+      const vatAmount = totalAmount - excludingVat;
 
-      // let formattedNumber = String(count_format_time.count_object).padStart(3, '0')
-      // const html_content = zHtml.take_products_generate_z_report(
-      //   zReportData,
-      //   formattedNumber,
-      //   count_format_time.formattedDate,
-      //   count_format_time.formattedTime,
-      //   user.name,
-      //   excludingVat,
-      //   vatAmount,
-      //   totalAmount,
-      //   cash_pin_data,
-      //   true
-      // )
+      let formattedNumber = String(count_format_time.count_object).padStart(3, '0')
+      const html_content = zHtml.take_products_generate_z_report(
+        zReportData,
+        formattedNumber,
+        count_format_time.formattedDate,
+        count_format_time.formattedTime,
+        user.name,
+        excludingVat,
+        vatAmount,
+        totalAmount,
+        cash_pin_data,
+        true
+      )
       
-      // await UpdateSerialNumber.resetSerialNumber()
+      await UpdateSerialNumber.resetSerialNumber()
 
-      // const filePath = 'output.html';
+      const filePath = 'output.html';
   
       // await UpdateSerialNumber.write_html(filePath,html_content) 
-      // // await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash)
 
       return {
         code: 201,
@@ -205,8 +193,8 @@ class reportController {
 
       const filePath = 'output.html';
   
-      await UpdateSerialNumber.write_html(filePath,html_content) 
-      // await UpdateSerialNumber.print_receipt(html_content,filePath,true)
+      // await UpdateSerialNumber.write_html(filePath,html_content) 
+      await UpdateSerialNumber.print_receipt(html_content,filePath,true)
       return {
         code: 201,
         message: "Report Created Successfully",
