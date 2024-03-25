@@ -16,7 +16,7 @@ const return_copy = (copyReceipt) => {
     if(copyReceipt){
         return (
             `<div class="address">
-            <h1 style="margin: 0;  font-size:20px">www.macherie010.com</h1>
+            <h1 style="margin: 0;  font-size:20px">COPY</h1>
         </div>`
         )
     }
