@@ -17,7 +17,6 @@ class reportController {
       startDate.setSeconds(0);
       startDate.setMilliseconds(0);
 
-
       const endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + 1);
 
@@ -100,7 +99,6 @@ class reportController {
         message: "Report Created Successfully",
       };
     } catch (error) {
-        console.log("Error",error.message)
         throw {
             code: 403,
             error: error,

@@ -87,6 +87,49 @@ class orderController {
     }
   }
 
+  async printReceipt(body, user) {
+    try {
+      
+
+      const lastOrder = await Order.findOne({_id: body.order._id})
+      .populate("userId orders.categoryId orders.productId")
+
+      let { formattedDate, formattedTime } = formattedTimeDateForStoredValues(lastOrder.date)
+
+      let ssNumber = lastOrder.serialNumber ? lastOrder.serialNumber : "000000"
+      let formattedNumber = String(ssNumber).padStart(3, '0')
+
+      const html_content = reHtml.take_products(
+        lastOrder.orders,
+        lastOrder.totalPrice,
+        formattedNumber,
+        formattedDate,
+        formattedTime,
+        lastOrder.userId.lastName,
+        lastOrder.cash,
+        true
+      )
+    
+      const filePath = 'output.html';
+
+      // await UpdateSerialNumber.write_html(filePath,html_content)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350,body.cash)
+      
+
+      return {
+        code: 201,
+        message: "Order created successfully",
+      };
+
+    } catch (error) {
+      console.log("ERROR",error.message)
+      throw {
+        code: error.code || 403,
+        error: error.message || "Internal server error",
+      };
+    }
+  }
+
   async copyReceipt(body, user) {
     try {
       

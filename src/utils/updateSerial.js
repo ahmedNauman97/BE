@@ -12,9 +12,9 @@ class OrderMiddleware {
 
     static async categories_from_orderList(combinedOrders,orderLength) {
         try {
-
-            const groupedCategory = combinedOrders.reduce((accumulator, currentValue) => {
-                const categoryId = currentValue.categoryId._id;
+          
+          const groupedCategory = combinedOrders.reduce((accumulator, currentValue) => {
+            const categoryId = currentValue.categoryId._id;
                 // Check if an entry with the current categoryId exists in the accumulator
                 const existingCategory = accumulator.find(item => item.categoryId._id === categoryId);
                 if (existingCategory) {
@@ -59,7 +59,7 @@ class OrderMiddleware {
             }, []);
             return {orderLength,groupedCategory,grandTotalSales,groupedProduct}
         } catch (error) {
-            throw {
+          throw {
                 code: 404,
                 message: "Error in Execution",
               };
