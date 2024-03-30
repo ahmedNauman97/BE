@@ -1,8 +1,6 @@
 const Order = require("../models/order");
-const AppUtils = require("../utils/appUtils");
 const reHtml = require("./re")
 const UpdateSerialNumber = require("../utils/updateSerial")
-const { ObjectId } = require('mongoose');
 const axios = require("axios")
 const { formattedTimeDateStorage,formattedTimeDateForStoredValues } = require("../utils/getDateTime")
 
@@ -32,16 +30,17 @@ class orderController {
     try {
 
       let { count_object, formattedDate, formattedTime } = await UpdateSerialNumber.updateSerialNumber()
-
       let formattedNumber = String(count_object.serialNumber).padStart(3, '0')
+
       const html_content = reHtml.take_products(
         body.orders,
-        body.totalPrice,
+        body.totalPrice - body.discount,
         formattedNumber,
         formattedDate,
         formattedTime,
         user.name,
-        body.cash
+        body.cash,
+        body.discount,
       )
     
       const filePath = 'output.html';
@@ -56,22 +55,24 @@ class orderController {
         date: currentDate,
         serialNumber:count_object.serialNumber,
         totalPrice: body.totalPrice,
+        discount: body.discount,
+        discountedPrice:body.totalPrice - body.discount,
         orders: [...body.orders],
         cash:body.cash
       });
 
       await createOrder.save();
 
-      // **** This is the function of inventory **** //
+      // // **** This is the function of inventory **** //
 
-      // const updateInventory = body.orders.map(async (order) => {
-      //   const findProduct = await AppUtils.updateInventory(
-      //     order.productId,
-      //     order.quantity
-      //   );
-      //   return findProduct;
-      // });
-      // await Promise.all(updateInventory);
+      // // const updateInventory = body.orders.map(async (order) => {
+      // //   const findProduct = await AppUtils.updateInventory(
+      // //     order.productId,
+      // //     order.quantity
+      // //   );
+      // //   return findProduct;
+      // // });
+      // // await Promise.all(updateInventory);
       
 
       return {
@@ -183,6 +184,7 @@ class orderController {
           message: "Only Admin can access",
         };
       }
+
       const currentPage = parseInt(query.page);
       const limit = 10;
       let totalPages;

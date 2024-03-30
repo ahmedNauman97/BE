@@ -10,7 +10,7 @@ const { formattedTimeDateStorage } = require("../utils/getDateTime")
 
 class OrderMiddleware {
 
-    static async categories_from_orderList(combinedOrders,orderLength) {
+    static async categories_from_orderList(combinedOrders,orderLength,actualData=[]) {
         try {
           
           const groupedCategory = combinedOrders.reduce((accumulator, currentValue) => {
@@ -36,7 +36,7 @@ class OrderMiddleware {
             });
             
             // Calculate grandTotal
-            const grandTotalSales = groupedCategory.reduce((total, group) => total + group.totalSale, 0);
+            const grandTotalSales = actualData.reduce((total, group) => total + group.discountedPrice, 0);
 
             for (let index = 0; index < combinedOrders.length; index++) {
               combinedOrders[index]["price_quantity"] = 0

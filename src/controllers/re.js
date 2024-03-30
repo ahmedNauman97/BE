@@ -26,11 +26,40 @@ const return_copy = (copyReceipt) => {
         </div>`
     )
 
+}
 
+const return_discount = (discount,total) => {
+    if(discount){
+        return (
+            `
+            <div class="products">
+                <div>
+                    <p style="margin: 0;">KORTING</p>
+                    <p style="margin: 0;">€ ${discount.toFixed(2)}</p>
+                </div>
+            </div>
+            <div class="products">
+                <div>
+                    <p style="margin: 0;">SUB TOTAL</p>
+                    <p style="margin: 0;">€ ${(total).toFixed(2)}</p>
+                </div>
+            </div>
+            `
+        )
+    }
+
+    return (
+        `<div class="products">
+        <div>
+            <p style="margin: 0;">SUB TOTAL</p>
+            <p style="margin: 0;">€ ${(total).toFixed(2)}</p>
+        </div>
+    </div>`
+    )
 
 }
 
-const take_products = (products,total,serial,date,time,role,cash,copyReceipt=false) => {
+const take_products = (products,total,serial,date,time,role,cash,discount=0,copyReceipt=false) => {
     const html_content = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -113,6 +142,7 @@ const take_products = (products,total,serial,date,time,role,cash,copyReceipt=fal
                 <p style="margin-bottom: 0;">${serial}</p>
             </div>
             ${products.map(product => return_product(product)).join('')}
+            ${return_discount(discount,total)}
             <div class="products">
                 <div>
                     <p style="margin: 0;">Total Ex VAT</p>
@@ -123,12 +153,6 @@ const take_products = (products,total,serial,date,time,role,cash,copyReceipt=fal
                 <div>
                     <p style="margin: 0;">VAT @ 21%</p>
                     <p style="margin: 0;">€ ${(total * 0.21).toFixed(2)}</p>
-                </div>
-            </div>
-            <div class="products">
-                <div>
-                    <p style="margin: 0;">SUB TOTAL</p>
-                    <p style="margin: 0;">€ ${total.toFixed(2)}</p>
                 </div>
             </div>
             <div class="products">

@@ -34,24 +34,29 @@ class reportController {
         };
       }
 
-      let cash_pin_data = {cash:0,cashTotal:0,pin:0,pinTotal:0}
+      let cash_pin_discount_data = {cash:0,cashTotal:0,pin:0,pinTotal:0,discount:0,discountTotal:0}
       for (let index = 0; index < getData.length; index++) {
         if(getData[index].cash){
-          cash_pin_data.cash += 1
-          cash_pin_data.cashTotal += getData[index].totalPrice
+          cash_pin_discount_data.cash += 1
+          cash_pin_discount_data.cashTotal += getData[index].discountedPrice
         }else{
-          cash_pin_data.pin += 1
-          cash_pin_data.pinTotal += getData[index].totalPrice
+          cash_pin_discount_data.pin += 1
+          cash_pin_discount_data.pinTotal += getData[index].discountedPrice
+        }
+        if (getData[index].discount > 0 ){
+          cash_pin_discount_data.discount += 1
+          cash_pin_discount_data.discountTotal += getData[index].discount
         }
       } 
 
+      console.log(cash_pin_discount_data)
       // Combine all orders into a single array
       const combinedOrders = getData.reduce((accumulator, currentValue) => {
         accumulator.push(...currentValue.orders);
         return accumulator;
       }, []);
 
-      let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length)
+      let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length,getData)
       
       let count_format_time = {}
 
@@ -72,7 +77,6 @@ class reportController {
 
       // Calculate VAT amount
       const vatAmount = totalAmount - excludingVat;
-
       let formattedNumber = String(count_format_time.count_object).padStart(3, '0')
       const html_content = zHtml.take_products_generate_z_report(
         zReportData,
@@ -83,8 +87,8 @@ class reportController {
         excludingVat,
         vatAmount,
         totalAmount,
-        cash_pin_data,
-        true
+        cash_pin_discount_data,
+        true,
       )
       
       await UpdateSerialNumber.resetSerialNumber()
@@ -138,14 +142,18 @@ class reportController {
         };
       }
 
-      let cash_pin_data = {cash:0,cashTotal:0,pin:0,pinTotal:0}
+      let cash_pin_discount_data = {cash:0,cashTotal:0,pin:0,pinTotal:0,discount:0,discountTotal:0}
       for (let index = 0; index < getData.length; index++) {
         if(getData[index].cash){
-          cash_pin_data.cash += 1
-          cash_pin_data.cashTotal += getData[index].totalPrice
+          cash_pin_discount_data.cash += 1
+          cash_pin_discount_data.cashTotal += getData[index].discountedPrice
         }else{
-          cash_pin_data.pin += 1
-          cash_pin_data.pinTotal += getData[index].totalPrice
+          cash_pin_discount_data.pin += 1
+          cash_pin_discount_data.pinTotal += getData[index].discountedPrice
+        }
+        if (getData[index].discount > 0 ){
+          cash_pin_discount_data.discount += 1
+          cash_pin_discount_data.discountTotal += getData[index].discount
         }
       } 
       // Combine all orders into a single array
@@ -154,7 +162,7 @@ class reportController {
         return accumulator;
       }, []);
 
-      let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length)
+      let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length,getData)
 
       let count_format_time = {}
 
@@ -186,7 +194,7 @@ class reportController {
         excludingVat,
         vatAmount,
         totalAmount,
-        cash_pin_data,
+        cash_pin_discount_data,
         false
       )
       
