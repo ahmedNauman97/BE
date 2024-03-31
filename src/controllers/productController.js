@@ -51,6 +51,7 @@ class productController {
           ? product.categoryId.name
           : "Uncategorized",
       }));
+      productsWithCategoryNames.sort((a, b) => a.sequenceNumber - b.sequenceNumber);
       return {
         code: 200,
         message: "Data found successfully",

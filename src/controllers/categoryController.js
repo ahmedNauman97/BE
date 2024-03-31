@@ -38,6 +38,7 @@ class categoryController {
           message: "Internal server error",
         };
       }
+      getCategory.sort((a, b) => a.sequenceNumber - b.sequenceNumber);
       return {
         code: 200,
         message: "Category find successfully",
