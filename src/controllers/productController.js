@@ -1,4 +1,4 @@
-const { Product } = require("../models/catalogue");
+const { Product, Category } = require("../models/catalogue");
 
 class productController {
   async createProduct(body) {
@@ -45,6 +45,7 @@ class productController {
         description: product.description,
         price: product.price,
         quantity: product.quantity,
+        sequenceNumber: product.sequenceNumber,
         categoryId: product.categoryId._id,
         category: product.categoryId
           ? product.categoryId.name

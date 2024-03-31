@@ -49,7 +49,25 @@ class reportController {
         }
       } 
 
-      console.log(cash_pin_discount_data)
+      // let cash = {cash:0,order:0}
+      // let total;
+      // for (let index = 0; index < getData.length; index++) {
+      //   let current = 0;
+      //   for (let index1 = 0; index1 < getData[index].orders.length; index1++) {
+      //     total = getData[index].orders[index1].price
+      //     current += total
+      //   }
+      //   cash.cash += getData[index].discountedPrice
+      //   cash.order += current
+      //   if(getData[index].discountedPrice !== getData[index].totalPrice){
+      //     console.log("FIRST",getData[index]._id.toString(), getData[index].discountedPrice, current, getData[index].discount)
+      //     getData[index].discountedPrice = current
+      //     getData[index].save()
+      //   }
+      // } 
+
+      // console.log(cash)
+
       // Combine all orders into a single array
       const combinedOrders = getData.reduce((accumulator, currentValue) => {
         accumulator.push(...currentValue.orders);

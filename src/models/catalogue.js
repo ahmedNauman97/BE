@@ -3,6 +3,7 @@ const { default: mongoose } = require("mongoose");
 const categorySchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
+  sequenceNumber: { type: Number },
   //   products: [
   //     {
   //       type: mongoose.Schema.Types.ObjectId,
@@ -15,6 +16,7 @@ const categorySchema = new mongoose.Schema({
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  sequenceNumber: { type: Number },
   description: String,
   barcode: String,
   price: { type: Number, required: true },

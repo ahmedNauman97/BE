@@ -12,7 +12,6 @@ class OrderMiddleware {
 
     static async categories_from_orderList(combinedOrders,orderLength,actualData=[]) {
         try {
-          
           const groupedCategory = combinedOrders.reduce((accumulator, currentValue) => {
             const categoryId = currentValue.categoryId._id;
                 // Check if an entry with the current categoryId exists in the accumulator
@@ -37,7 +36,6 @@ class OrderMiddleware {
             
             // Calculate grandTotal
             const grandTotalSales = actualData.reduce((total, group) => total + group.discountedPrice, 0);
-
             for (let index = 0; index < combinedOrders.length; index++) {
               combinedOrders[index]["price_quantity"] = 0
             }
@@ -209,7 +207,7 @@ class OrderMiddleware {
             } else {
                 console.log('HTML file saved successfully!');
                 const htmlContent = fs.readFileSync(filePath, 'utf8');
-                axios.post(report ? process.env.PYTHON_BACKEND + "/printReport" : process.env.PYTHON_BACKEND + "/printReceipt", {
+                const response = axios.post(report ? process.env.PYTHON_BACKEND + "/printReport" : process.env.PYTHON_BACKEND + "/printReceipt", {
                   htmlContent,
                   width,
                   cash
@@ -218,6 +216,7 @@ class OrderMiddleware {
                       'Content-Type': 'application/json' // Adjust the content type based on your image type
                   }
               })
+              console.log("PRINTER RESPONSE")
             }
         });
     }

@@ -72,10 +72,10 @@ const free_function = (data,serial,excludingVat,vatAmount,totalAmount,cash_pin_d
                     <p style="margin: 0;">€${cash_pin_data.pinTotal.toFixed(2)}</p>
                 </div>
                 <div class="sub_info">
-                    <p style="margin: 0;">KORTING <span style="margin-left: 50px;">No</span></p>
-                    <p style="margin: 0;">${cash_pin_data.discount}</p>
-                    <p style="margin: 0;">€${cash_pin_data.discountTotal.toFixed(2)}</p>
-                </div>
+                <p style="margin: 0;">KORTING <span style="margin-left: 50px;">No</span></p>
+                <p style="margin: 0;">${cash_pin_data.discount}</p>
+                <p style="margin: 0;">€${cash_pin_data.discountTotal.toFixed(2)}</p>
+            </div>
             </div>
         </div>
         `
@@ -288,7 +288,9 @@ const take_products_generate_z_report = (data,serial,date,time,role,excludingVat
             ${dept(data,serial,excludingVat,vatAmount,totalAmount,zReport,cash_pin_data)}
             ${cashier(data,role,serial,excludingVat,vatAmount,totalAmount,zReport)}
             ${PLU(data,serial,excludingVat,vatAmount,totalAmount,zReport,cash_pin_data)}
-            <div style="margin: 0;"></div>
+            <div style="margin-top: 10px;">
+                <div class="hr-line"></div>
+            </div>
         </div>
     </body>
     </html>`
