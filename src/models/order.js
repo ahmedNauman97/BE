@@ -23,7 +23,6 @@ const orderSchema = new mongoose.Schema({
   totalPrice: { type: Number },
   discount: { type: Number, default: 0 },
   discountedPrice: { type: Number },
-  serialNumber: { type: Number },
   date: { type: Date },
   cash: { type: Boolean, required: true, default: true },
 }, {versionKey: false});

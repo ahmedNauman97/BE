@@ -27,6 +27,35 @@ class orderController {
     }
   }
 
+  async updateOrder(body, user) {
+    try {
+
+      const find = await Order.find({_id: body._id})
+      const updatedData = await Order.findByIdAndUpdate(
+        body._id,
+        { 
+          $set: { 
+              discount: body.discount,
+              discountedPrice: find[0].totalPrice - body.discount 
+          } 
+      },
+        { new: true }
+      );
+
+      return {
+        code: 201,
+        message: "Order updated successfully",
+      };
+    } catch (error) {
+      console.log("ERROR",error)
+      throw {
+        code: error.code || 403,
+        error: error.message || "Internal server error",
+      };
+    }
+  }
+
+
   async createOrder(body, user) {
     try {
 
@@ -54,7 +83,6 @@ class orderController {
       const createOrder = await new Order({
         userId: user._id,
         date: currentDate,
-        serialNumber:count_object.serialNumber,
         totalPrice: body.totalPrice,
         discount: body.discount,
         discountedPrice:body.totalPrice - body.discount,

@@ -6,14 +6,6 @@ const orderRouter = express.Router();
 
 const controller = new orderController();
 
-orderRouter.post("/", validateToken, async (req, res) => {
-  try {
-    const response = await controller.createOrder(req.body, req.user);
-    res.status(response.code).send(response);
-  } catch (error) {
-    res.status(error.code).send(error);
-  }
-});
 orderRouter.get("/", validateToken, async (req, res) => {
   try {
     const response = await controller.getOrdersDetail(req.user, req.query);
@@ -30,6 +22,25 @@ orderRouter.get("/status", validateToken, async (req, res) => {
     res.status(error.code).send(error);
   }
 });
+
+orderRouter.post("/", validateToken, async (req, res) => {
+  try {
+    const response = await controller.createOrder(req.body, req.user);
+    res.status(response.code).send(response);
+  } catch (error) {
+    res.status(error.code).send(error);
+  }
+});
+
+orderRouter.post("/updateDiscount", validateToken, async (req, res) => {
+  try {
+    const response = await controller.updateOrder(req.body, req.user);
+    res.status(response.code).send(response);
+  } catch (error) {
+    res.status(error.code).send(error);
+  }
+});
+
 orderRouter.post("/openDrawer", validateToken, async (req, res) => {
   try {
     const response = await controller.openDrawer(req.body, req.user);
