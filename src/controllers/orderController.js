@@ -220,7 +220,7 @@ class orderController {
       let getData;
       if (query.date) {
         const startDate = new Date(query.date);
-        startDate.setTime(startDate.getTime() + (1 * 60 * 60 * 1000));
+        startDate.setTime(startDate.getTime() + (2 * 60 * 60 * 1000));
         startDate.setHours(0, 0, 0, 0);
 
         const endDate = new Date(startDate);
@@ -264,7 +264,7 @@ class orderController {
     try {
       const data = await Order.find();
       const currentDate = new Date();
-      currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
+      currentDate.setTime(currentDate.getTime() + (2 * 60 * 60 * 1000));
 
       const todayDate = currentDate.toISOString().split("T")[0];
       const todayOrders = data.filter(

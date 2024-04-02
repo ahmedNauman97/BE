@@ -2,7 +2,7 @@ function formattedTimeDateStorage() {
     
     // Get the current date
     const currentDate = new Date(); 
-    currentDate.setTime(currentDate.getTime() + (1 * 60 * 60 * 1000));
+    currentDate.setTime(currentDate.getTime() + (2 * 60 * 60 * 1000));
 
     // Format the date as DD:MM:YYYY
     const day = String(currentDate.getDate()).padStart(2, '0');
@@ -23,7 +23,7 @@ function formattedTimeDateForStoredValues(time) {
     
     // Get the current date
     const currentDate = new Date(timestamp); 
-    currentDate.setTime(currentDate.getTime() - (1 * 60 * 60 * 1000)); // I had to  minus 1 hour to adjust the time 
+    currentDate.setTime(currentDate.getTime() - (2 * 60 * 60 * 1000)); // I had to  minus 1 hour to adjust the time 
     
     // Format the date as DD:MM:YYYY
     const day = String(currentDate.getDate()).padStart(2, '0');
