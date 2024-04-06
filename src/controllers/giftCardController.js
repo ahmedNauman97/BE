@@ -7,6 +7,8 @@ class giftCardController {
   async createGift(body, user) {
     try {
 
+      let { formattedDate, formattedTime, currentDate } = formattedTimeDateStorage()
+
       const giftFind = await Giftt.find({})
       const serialNumber = giftFind.length + 1
 
@@ -14,11 +16,11 @@ class giftCardController {
         amount:body.amount,
         serialNumber:serialNumber,
         userId: user._id,
+        date: currentDate,
       });
       await Gift.save();
 
       let formattedNumber = String(serialNumber).padStart(3, '0')
-      let { formattedDate, formattedTime } = formattedTimeDateStorage()
       
       const html_content = giftCardHtml.gift_receipt(
         body.amount,
@@ -29,7 +31,7 @@ class giftCardController {
       )
       const filePath = 'output.html';
       
-      // await UpdateSerialNumber.write_html(filePath,html_content)
+      // await UpdateSerialNumber.write_html(filePath,html_content) 
       await UpdateSerialNumber.print_receipt(html_content,filePath,false, 350)
 
       return {
