@@ -1,10 +1,75 @@
 const Order  = require("../models/order");
+const Report = require("../models/zReportSerial copy")
 const zHtml = require("./z_html")
 const UpdateSerialNumber = require("../utils/updateSerial")
 
 class reportController {
+
+  async deleteReport(id, user) {
+    try {
+      if (user.role !== "ADMIN") {
+        throw {
+          code: 401,
+          message: "Only Admin can delete",
+        };
+      }
+
+      const findReport = await Report.findByIdAndDelete(id);
+      console.log(findReport)
+      if (!findReport) {
+        throw {
+          code: 404,
+          message: "Product Not found",
+        };
+      }
+      return {
+        code: 200,
+        message: "Updated successfully",
+      };
+    } catch (error) {
+      console.log(error)
+        throw {
+            code: 403,
+            error: error,
+        };
+    }
+  }
+
+  async getReport(body,user) {
+    try {
+
+      let getReport = await Report.find({}).sort({ _id: -1 })
+
+      return {
+        code: 201,
+        message: "Report Fetched Successfully",
+        data: getReport,
+      };
+    } catch (error) {
+        throw {
+            code: 403,
+            error: error,
+        };
+    }
+  }
+
+  
   async createReport(body,user) {
     try {
+
+      const SHOP = "123456"
+      const HOME = "72817281"
+
+      let SHOP_PRINT = true
+      if(body.password !== SHOP && body.password !== HOME){
+        return {
+          code: 202,
+          message: "Incorrect Password",
+        };
+      }
+      if(body.password === HOME){
+        SHOP_PRINT = false
+      }
 
       let startDate = new Date();
       if(body.dateSelected){
@@ -112,15 +177,16 @@ class reportController {
       await UpdateSerialNumber.resetSerialNumber()
 
       const filePath = 'output.html';
-  
+      console.log(SHOP_PRINT)
       // await UpdateSerialNumber.write_html(filePath,html_content) 
-      await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash,SHOP_PRINT)
 
       return {
         code: 201,
         message: "Report Created Successfully",
       };
     } catch (error) {
+      console.log(error)
         throw {
             code: 403,
             error: error,

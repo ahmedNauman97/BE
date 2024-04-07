@@ -199,24 +199,33 @@ class OrderMiddleware {
         }
     }
 
-    static async print_receipt (html_content,filePath,report=false,width=500,cash = false) {
+    static async print_receipt (html_content,filePath,report=false,width=500,cash = false,SHOP_PRINT = true) {
        
         fs.writeFile(filePath, html_content, (err) => {
             if (err) {
                 console.error('Error writing HTML file:', err);
             } else {
-                console.log('HTML file saved successfully!');
-                const htmlContent = fs.readFileSync(filePath, 'utf8');
-                const response = axios.post(report ? process.env.PYTHON_BACKEND + "/printReport" : process.env.PYTHON_BACKEND + "/printReceipt", {
-                  htmlContent,
-                  width,
-                  cash
-                }, {
-                  headers: {
-                      'Content-Type': 'application/json' // Adjust the content type based on your image type
-                  }
-              })
-              console.log("PRINTER RESPONSE")
+                try {
+                    console.log('HTML file saved successfully!');
+                    const htmlContent = fs.readFileSync(filePath, 'utf8');
+                    const route = SHOP_PRINT ? process.env.PYTHON_BACKEND : process.env.PYTHON_BACKEND_HOME
+                    const response = axios.post(report ? route + "/printReport" : route + "/printReceipt", {
+                      htmlContent,
+                      width,
+                      cash
+                    }, {
+                      headers: {
+                          'Content-Type': 'application/json' // Adjust the content type based on your image type
+                      }
+                  })
+                  console.log("PRINTER RESPONSE")
+                } catch (error) {
+                  console.log("error",error)
+                  throw {
+                    code: 404,
+                    message: "Error in Execution",
+                  };
+                }
             }
         });
     }
