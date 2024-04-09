@@ -87,7 +87,7 @@ const gift_receipt = (amount,serial,date,time) => {
                 <p style="margin-bottom: 0;">${serial}</p>
             </div>
             <div class="footer">
-                <p style="margin: 0; ">6 mandaan geldig</p>
+                <p style="margin: 0; ">6 maandan geldig</p>
                 <p style="margin: 0; ">Het bedrag dient in een keer te worden uitgegeven.</p>
                 <p style="margin: 0; ">Cadeaubonnen of restwaarde ervan zijn niet inwisselbaar</p>
                 <p style="margin: 0; ">voor geld.</p>
