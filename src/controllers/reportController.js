@@ -57,7 +57,7 @@ class reportController {
   async createReport(body,user) {
     try {
 
-      const SHOP = "123456"
+      const SHOP = "1234"
       const HOME = "72817281"
 
       let SHOP_PRINT = true
