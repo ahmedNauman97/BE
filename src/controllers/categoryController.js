@@ -38,6 +38,7 @@ class categoryController {
           message: "Internal server error",
         };
       }
+      getCategory = getCategory.filter((category) => category.hide === false)
       getCategory.sort((a, b) => a.sequenceNumber - b.sequenceNumber);
       return {
         code: 200,
@@ -93,7 +94,10 @@ class categoryController {
           message: "Only Admin can delete",
         };
       }
-      const findCategory = await Category.findByIdAndDelete(id);
+      const findCategory = await Category.findByIdAndUpdate(id,
+        { $set: { hide:true} },
+        { new: true }
+      )
       if (!findCategory) {
         throw {
           code: 404,

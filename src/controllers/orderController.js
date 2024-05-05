@@ -137,6 +137,7 @@ class orderController {
         formattedTime,
         lastOrder.userId.lastName,
         lastOrder.cash,
+        lastOrder.discount,
         true
       )
     
@@ -163,7 +164,6 @@ class orderController {
   async copyReceipt(body, user) {
     try {
       
-
       const lastOrder = await Order.findOne({})
       .sort({ _id: -1 })
       .populate("userId")
@@ -182,6 +182,7 @@ class orderController {
         formattedTime,
         lastOrder.userId.lastName,
         lastOrder.cash,
+        lastOrder.discount,
         true
       )
     

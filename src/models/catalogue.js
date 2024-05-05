@@ -4,6 +4,7 @@ const categorySchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String },
   sequenceNumber: { type: Number },
+  hide:{type: Boolean, required: true, default: false}
   //   products: [
   //     {
   //       type: mongoose.Schema.Types.ObjectId,
@@ -21,7 +22,7 @@ const productSchema = new mongoose.Schema({
   barcode: String,
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
-
+  hide:{type: Boolean, required: true, default: false},
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",

@@ -38,6 +38,8 @@ class productController {
         products = await Product.find().populate("categoryId");
       }
 
+      products = products.filter((product) => product.hide === false && product.categoryId.hide === false )
+
       const productsWithCategoryNames = products.map((product) => ({
         _id: product._id,
         name: product.name,
@@ -103,7 +105,10 @@ class productController {
           message: "Only Admin can delete",
         };
       }
-      const findProduct = await Product.findByIdAndDelete(id);
+      const findProduct = await Product.findByIdAndUpdate(id,
+        { $set: { hide:true} },
+        { new: true }
+      )
       if (!findProduct) {
         throw {
           code: 404,
