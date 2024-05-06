@@ -3,6 +3,15 @@ const { Product, Category } = require("../models/catalogue");
 class productController {
   async createProduct(body) {
     try {
+      // body = {
+      //   _id: "6602da2d6ac92a4f567970c9",
+      //   name: 'PIN 20cent',
+      //   description: 'PIN 20cent',
+      //   barcode: 'PIN 20cent',
+      //   quantity: '100',
+      //   price: '0.2',
+      //   categoryId: '6602da096ac92a4f567970b6'
+      // }
       const newProduct = await new Product({
         ...body,
       });

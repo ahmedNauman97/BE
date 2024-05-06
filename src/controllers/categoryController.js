@@ -9,6 +9,7 @@ class categoryController {
           message: "You are not admin",
         };
       }
+      // body = { name: 'PIN 20 CENT', description: 'PIN 20 CENT', _id:"65f57ed99f3a831e1aa0f469", sequenceNumber: 15 }
       const newCategory = await new Category({
         ...body,
       });

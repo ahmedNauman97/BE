@@ -139,6 +139,17 @@ class reportController {
         return accumulator;
       }, []);
 
+      // var count = 0
+
+      // for (let index = 0; index < getData.length; index++) {
+      //   for (let index_1 = 0; index_1 < getData[index].orders.length; index_1++) {
+      //     if(!getData[index].orders[index_1].productId){
+      //       count += 1
+      //       console.log(getData[index],"NULL")
+      //     }
+      //   }
+      // }
+
       let zReportData = await UpdateSerialNumber.categories_from_orderList(combinedOrders,getData.length,getData)
       
       let count_format_time = {}

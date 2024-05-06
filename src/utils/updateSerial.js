@@ -12,9 +12,9 @@ class OrderMiddleware {
 
     static async categories_from_orderList(combinedOrders,orderLength,actualData=[]) {
         try {
-          const groupedCategory = combinedOrders.reduce((accumulator, currentValue) => {
-            const categoryId = currentValue.categoryId._id;
-                // Check if an entry with the current categoryId exists in the accumulator
+            const groupedCategory = combinedOrders.reduce((accumulator, currentValue) => {
+              const categoryId = currentValue.categoryId._id;
+              // Check if an entry with the current categoryId exists in the accumulator
                 const existingCategory = accumulator.find(item => item.categoryId._id === categoryId);
                 if (existingCategory) {
                   // If an entry with the current categoryId exists, push the current order into its orders array
@@ -112,9 +112,13 @@ class OrderMiddleware {
 
     // Join the reversed array with ":" separator
     const reversedDateString = reversedArray.join(":");
+    const reversedDate = reversedArray.join("-");
 
     const number = await ZReportSerialCopy.find({
-      dateOfReport: reversedDateString
+      $or: [
+        { dateOfReport: reversedDateString },
+        { dateOfReport: reversedDate }
+      ]
     })
     
     return {count_object:number[0].serialNumber,formattedDate:number[0].dateOfReport,formattedTime:number[0].timeOfReport}
