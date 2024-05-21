@@ -9,7 +9,6 @@ dotenv.config();
 const port = process.env.PORT || 4040;
 
 const app = express();
-//console.log("CHEC")
 app.use(express.static('public'));
 app.use(cors());
 app.use(express.json({ limit: "100mb" }));
