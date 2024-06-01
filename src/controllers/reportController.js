@@ -177,7 +177,7 @@ class reportController {
         formattedNumber,
         count_format_time.formattedDate,
         count_format_time.formattedTime,
-        user.name,
+        user.name,//"USER1"
         excludingVat,
         vatAmount,
         totalAmount,
