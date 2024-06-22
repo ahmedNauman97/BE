@@ -131,7 +131,7 @@ class reportController {
       //   }
       // } 
 
-      // console.log(cash)
+      // console.log(cash_pin_discount_data)
 
       // Combine all orders into a single array
       const combinedOrders = getData.reduce((accumulator, currentValue) => {
@@ -171,12 +171,13 @@ class reportController {
 
       // Calculate VAT amount
       const vatAmount = totalAmount - excludingVat;
+
       let formattedNumber = String(count_format_time.count_object).padStart(3, '0')
       const html_content = zHtml.take_products_generate_z_report(
         zReportData,
         formattedNumber,
         count_format_time.formattedDate,
-        count_format_time.formattedTime,
+        count_format_time.formattedTime, // "20:32:10"
         user.name,//"USER1"
         excludingVat,
         vatAmount,
@@ -185,10 +186,9 @@ class reportController {
         true,
       )
       
-      await UpdateSerialNumber.resetSerialNumber()
+      await UpdateSerialNumber.resetSerialNumber() //Comment this before generating Z report
 
       const filePath = 'output.html';
-      console.log(SHOP_PRINT)
       // await UpdateSerialNumber.write_html(filePath,html_content) 
       await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash,SHOP_PRINT)
 
@@ -197,8 +197,8 @@ class reportController {
         message: "Report Created Successfully",
       };
     } catch (error) {
-      console.log(error)
-        throw {
+      console.log("error")
+      throw {
             code: 403,
             error: error,
         };
@@ -213,12 +213,18 @@ class reportController {
           message: "Only admin can get access",
         };
       }
+      
+      let SHOP_PRINT = true
 
       let startDate = new Date();
       if(body.dateSelected){
         startDate = new Date(body.dateSelected);
       }
-      startDate.setHours(1, 0, 0, 0);
+      // Set the time to 00:00:00
+      startDate.setHours(1);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      startDate.setMilliseconds(0);
 
       const endDate = new Date(startDate);
       endDate.setDate(startDate.getDate() + 1);
@@ -251,6 +257,7 @@ class reportController {
           cash_pin_discount_data.discountTotal += getData[index].discount
         }
       } 
+
       // Combine all orders into a single array
       const combinedOrders = getData.reduce((accumulator, currentValue) => {
         accumulator.push(...currentValue.orders);
@@ -261,11 +268,8 @@ class reportController {
 
       let count_format_time = {}
 
-      if(body.dateSelected){
-        count_format_time = await UpdateSerialNumber.getPreviousXReportNumber(body.dateSelected)
-      }else{
-        count_format_time = await UpdateSerialNumber.updateXSerialNumber()
-      }
+      count_format_time = await UpdateSerialNumber.updateXSerialNumber(body.dateSelected)
+
 
       // Total amount
       const totalAmount = zReportData.grandTotalSales;
@@ -293,12 +297,10 @@ class reportController {
         false
       )
       
-      await UpdateSerialNumber.resetSerialNumber()
-
       const filePath = 'output.html';
-  
+        console.log("FINISHED")
       // await UpdateSerialNumber.write_html(filePath,html_content) 
-      await UpdateSerialNumber.print_receipt(html_content,filePath,true)
+      await UpdateSerialNumber.print_receipt(html_content,filePath,true,500,body.cash,SHOP_PRINT)
       return {
         code: 201,
         message: "Report Created Successfully",

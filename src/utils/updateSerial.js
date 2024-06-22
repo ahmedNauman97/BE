@@ -68,19 +68,23 @@ class OrderMiddleware {
 
       // Split the date string by "-" and reverse the array
       const reversedArray = dateOfReport.split("-").reverse();
-  
+
       // Join the reversed array with ":" separator
       const reversedDateString = reversedArray.join(":");
-  
-      const number = await ZReportSerialCopy.find({
-        dateOfReport: reversedDateString
+      const reversedDate = reversedArray.join("-");
+
+      const number = await XReportSerialCopy.find({
+        $or: [
+          { dateOfReport: reversedDateString },
+          { dateOfReport: reversedDate }
+        ]
       })
       
       return {count_object:number[0].serialNumber,formattedDate:number[0].dateOfReport,formattedTime:number[0].timeOfReport}
-  
+
     }
 
-    static async updateXSerialNumber() {
+    static async updateXSerialNumber(dateSelected) {
       try {
         let count;
 
@@ -94,8 +98,12 @@ class OrderMiddleware {
         })
 
         count.save()
-
-        return {count_object:count.serialNumber,formattedDate,formattedTime}
+        if(dateSelected){
+          let reversedDate = dateSelected.split('-').reverse().join('-');
+          return {count_object:count.serialNumber,formattedDate:reversedDate,formattedTime}
+        }else{
+          return {count_object:count.serialNumber,formattedDate,formattedTime}
+        }
 
       } catch (error) {
           throw {
@@ -224,7 +232,6 @@ class OrderMiddleware {
                   })
                   console.log("PRINTER RESPONSE")
                 } catch (error) {
-                  console.log("error",error)
                   throw {
                     code: 404,
                     message: "Error in Execution",
