@@ -278,7 +278,7 @@ const take_products_generate_z_report = (data,serial,date,time,role,excludingVat
                 <p>${"X/Z"}</p>
                 <p>${role}</p>
                 <p>${date}     ${time}</p>
-                <p>${serial}</p>
+                <p>${zReport ? serial : ""}</p>
             </div>
             <div class="header_1">
                 <h3>BATCH REPORT 2</h3>
