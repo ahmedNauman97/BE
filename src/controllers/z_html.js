@@ -7,7 +7,7 @@ const fixed_ttl = (data,serial,excludingVat,vatAmount,totalAmount,zReport) => {
                 <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001011</p>
                 <p style="margin: 0;">FIXED TTL</p>
-                <p style="margin: 0;">${serial}</p>
+                <p style="margin: 0;">${zReport ? serial : ""}</p>
             </div>
             <div class="sub_section">
                 <div class="sub_info">
@@ -58,7 +58,7 @@ const free_function = (data,serial,excludingVat,vatAmount,totalAmount,cash_pin_d
                 <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001012</p>
                 <p style="margin: 0;">FREE FUNCTION</p>
-                <p style="margin: 0;">${serial}</p>
+                <p style="margin: 0;">${zReport ? serial : ""}</p>
             </div>
             <div class="sub_section">
                 <div class="sub_info">
@@ -100,7 +100,7 @@ const dept = (data, serial, excludingVat, vatAmount, totalAmount,zReport,cash_pi
                 <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001015</p>
                 <p style="margin: 0;">DEPT</p>
-                <p style="margin: 0;">${serial}</p>
+                <p style="margin: 0;">${zReport ? serial : ""}</p>
             </div>
             <div class="sub_section">
                 ${data.groupedCategory.map((val) => category(val)).join('')} <!-- Join the results to remove line breaks -->
@@ -129,7 +129,7 @@ const cashier = (data,role,serial,excludingVat,vatAmount,totalAmount,zReport) =>
                 <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001017</p>
                 <p style="margin: 0;">CASHIER/CLERK</p>
-                <p style="margin: 0;">${serial}</p>
+                <p style="margin: 0;">${zReport ? serial : ""}</p>
             </div>
             <div class="sub_section">
                 <div class="hr-line"></div>
@@ -176,7 +176,7 @@ const PLU = (data, serial, excludingVat, vatAmount, totalAmount,zReport,cash_pin
                 <p style="margin: 0;">${zReport ? "Z" : "X"}</p>
                 <p style="margin: 0;">0001014</p>
                 <p style="margin: 0;">PLU</p>
-                <p style="margin: 0;">${serial}</p>
+                <p style="margin: 0;">${zReport ? serial : ""}</p>
             </div>
             <div class="sub_section">
                 ${data.groupedProduct.map((val) => product(val)).join('')} <!-- Join the results to remove line breaks -->
